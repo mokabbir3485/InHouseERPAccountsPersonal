@@ -1,0 +1,203 @@
+<form name="ChartOfAccountsForm" novalidate>
+
+            <div class="alert alert-info alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="topInfo"> &nbsp;  &#9755;&nbsp; <span style="color:red;">Red Icon</span> Denotes Required Field &nbsp;&nbsp;&nbsp;&nbsp; &#9755; Click On A Table Row To Update/Delete</div>
+            </div>
+      
+
+
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-share-alt"></i>&nbsp;Charts of Account Entry</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group" ng-class="{ 'has-error' : ChartOfAccountsForm.MainGroup.$dirty && ChartOfAccountsForm.MainGroup.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Select Main Group">
+                                <div class="input-group input-group-md ddl">
+                                    <select id="ddlMainGroup" ng-model="ddlMainGroup" class="form-control selectMendatory" name="MainGroup" ng-options="MainGroup.Name for MainGroup in MainGrouplist track by MainGroup.MainGroupID" autofocus required ng-change="ac_ChartOfAccounts.MaingroupID=ddlMainGroup.MainGroupID; GetAllSubMainGroup();GetChartOfAccount();">
+                                        <option value="" label="Select Main Group"></option>
+                                    </select>
+                                </div>
+                                <span class="help-block" ng-show="ChartOfAccountsForm.MainGroup.$dirty && ChartOfAccountsForm.MainGroup.$invalid">Main Group is required</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group" ng-class="{ 'has-error' : ChartOfAccountsForm.SubMainGroup.$dirty && ChartOfAccountsForm.SubMainGroup.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Select Sub Main Group">
+                                <div class="input-group input-group-md ddl">
+                                    <select id="ddlSubMainGroup" ng-model="ddlSubMainGroup" class="form-control selectMendatory" name="SubMainGroup" ng-options="SubMainGroup.Name for SubMainGroup in SubMainGrouplist track by SubMainGroup.SubMainGroupID" autofocus required ng-change="ac_ChartOfAccounts.SubMainGroupID=ddlSubMainGroup.SubMainGroupID; GetAllSubGroupHead();GetChartOfAccount();">
+                                        <option value="" label="Select Sub Main Group"></option>
+                                    </select>
+                                </div>
+                                <span class="help-block" ng-show="ChartOfAccountsForm.SubMainGroup.$dirty && ChartOfAccountsForm.SubMainGroup.$invalid">Sub Main Group is required</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group" ng-class="{ 'has-error' : ChartOfAccountsForm.SubGroupHead.$dirty && ChartOfAccountsForm.SubGroupHead.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Select Sub Group Head">
+                                <div class="input-group input-group-md ddl">
+                                    <select id="ddlSubGroupHead" ng-model="ddlSubGroupHead" class="form-control selectMendatory" name="SubGroupHead" ng-options="SubGroupHead.Name for SubGroupHead in SubGroupHeadlist track by SubGroupHead.SubGroupHeadID" autofocus required ng-change="GenerateOfAccountHeadcode(ddlSubGroupHead); ac_ChartOfAccounts.SubGroupHeadID=ddlSubGroupHead.SubGroupHeadID;GetChartOfAccount();">
+                                        <option value="" label="Select Sub Group Head"></option>
+                                    </select>
+                                </div>
+                                <span class="help-block" ng-show="ChartOfAccountsForm.SubGroupHead.$dirty && ChartOfAccountsForm.SubGroupHead.$invalid">Sub Group Head is required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+
+                            <div class="form-group" ng-class="{ 'has-error' : ChartOfAccountsForm.AccountHeadName.$invalid && ChartOfAccountsForm.AccountHeadName.$touched }" data-toggle="tooltip" data-placement="bottom" title="Account Head Name">
+                                <div class="input-group">
+                                    <input type="text" id="txtAccountHeadName" name="AccountHeadName" class="form-control " ng-model="ac_ChartOfAccounts.Head" placeholder="Account Head Name" maxlength="51" ng-maxlength="50" required>
+                                    <span class="input-group-addon"><i class="fa fa-text-width" style="color:red"></i></span>
+                                </div>
+                                <span class="help-block" ng-if="ChartOfAccountsForm.AccountHeadName.$error.required && ChartOfAccountsForm.AccountHeadName.$touched">Account Head Name is required</span>
+                                <span class="help-block" ng-if="ChartOfAccountsForm.AccountHeadName.$error.maxlength">50 Character Max</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group" ng-class="{ 'has-error' : ChartOfAccountsForm.AccountHeadCode.$invalid && ChartOfAccountsForm.AccountHeadCode.$touched }" data-toggle="tooltip" data-placement="bottom" title="Account Head Code">
+                                <div class="input-group">
+                                    <input type="text" id="txtAccountHeadCode" name="AccountHeadCode" class="form-control " ng-model="ac_ChartOfAccounts.Code" placeholder="Account Head Code" maxlength="51" ng-maxlength="50" required readonly>
+                                    <span class="input-group-addon"><i class="fa fa-text-width" style="color:red"></i></span>
+                                </div>
+                                <span class="help-block" ng-if="ChartOfAccountsForm.AccountHeadCode.$error.required && ChartOfAccountsForm.AccountHeadCode.$touched">Account Head Code is required</span>
+                                <span class="help-block" ng-if="ChartOfAccountsForm.AccountHeadCode.$error.maxlength">50 Character Max</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+
+                            <div class="form-group" ng-class="{ 'has-error' : ChartOfAccountsForm.Description.$invalid && ChartOfAccountsForm.Description.$touched }" data-toggle="tooltip" data-placement="bottom" title="Description">
+                                <div class="input-group">
+                                    <textarea type="text" id="txtDescription" name="Description" class="form-control" ng-model="ac_ChartOfAccounts.Description" placeholder="Description" rows="1" maxlength="500" ng-maxlength="500"></textarea>
+                                    <span class="input-group-addon"><i class="fa fa-text-width"></i></span>
+                                </div>
+                                <span class="help-block" ng-if="ChartOfAccountsForm.Description.$error.maxlength">15 Character Max</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <label>Status: </label>
+                                &nbsp;&nbsp;
+                                <div class="radio-inline">
+                                    <input type="radio" name="optionsRadios" ng-value="true" ng-model="ac_ChartOfAccounts.isActive"> Active
+                                </div>
+                                <div class="radio-inline">
+                                    <input type="radio" name="optionsRadios" ng-value="false" ng-model="ac_ChartOfAccounts.isActive"> Inactive
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <button class="customBtn custmoBtnSave" ng-click="AddChartOfAccounts()" ng-disabled="!ddlSubGroupHead ||!ddlSubMainGroup || !ddlMainGroup || !ac_ChartOfAccounts.Head || !ac_ChartOfAccounts.Code">
+                                <i class="fa fa-floppy-o"></i>&nbsp;{{btnSave}}
+                            </button>
+                        </div>
+                        <!--<div class="col-md-4">
+                            <button id="btnDelete" class="customBtn custmoBtnDelete" ng-click="Delete()" ng-show="btnDeleteShow" title="Search">
+                                <i class="fa fa-trash"></i>&nbsp;Delete
+                            </button>
+                        </div>-->
+
+                        <div class="col-md-4">
+                            <button id="btnReset" class="customBtn custmoBtnReset" ng-click="resetForm()" title="Reset">
+                                <i class="fa fa-refresh"></i>&nbsp;Reset
+                            </button>
+                        </div>
+                    </div>
+
+
+
+                   
+                </div>
+            </div>
+   
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-list"></i>&nbsp;Charts of Account List</h3>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="SearchChartOfAccountId" ng-change="GetChartOfAccount()" ng-model="SearchChartOfAccount" placeholder="Search ...." />
+                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-danger" ng-click="referesh()"><i class="fa fa-refresh"></i>Clear</button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel-body custom-panal-body">
+                    <div class="tbl-outer">
+                        <table class="responstable table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>S/N</th>
+                                    <th class="txt-center">(1) Main Group </th>
+                                    <th class="txt-center">(2) Sub Main Group</th>
+                                    <th class="txt-center">(3) Sub Group Head</th>
+                                    <th class="txt-center">(4) Head</th>
+                                    <th class="txt-center">Status</th>
+                                    <th class="txt-center">Action</th>
+                                </tr>
+                                <tr class="HoverTable" dir-paginate="aChart in ChartOfAccountForGetPagedList | filter:q | itemsPerPage: PerPage" current-page="currentPage" total-items="total_count" >
+                                    <td>{{$index + ((currentPage-1)*PerPage) + 1}}</td>
+                                    <td style="padding-left:15px">{{aChart.MainGroupID }} - {{aChart.MainGroupName}}</td>
+                                    <td style="padding-left:15px">{{aChart.SubMainGroupID }} - {{aChart.SubMainGroupName}}</td>
+                                    <td style="padding-left:15px">{{aChart.SubGroupHeadID }} - {{aChart.SubGroupHeadName}}</td>
+                                    <td style="padding-left:15px">{{aChart.Head }} - {{aChart.Code }}</td>
+                                    <td class="txt-center">
+
+                                        <p ng-if="aChart.isActive==true">Active</p>
+                                        <p ng-if="aChart.isActive==false">InActive</p>
+                                    </td>
+                                    <td class="txt-center">
+                                        <button class="btn btn-primary" ng-click="SelChartOfAccounts(aChart)">
+                                            <i class="fa fa-edit"></i> Edit
+                                        </button>
+                                    </td>
+
+                                </tr>
+                                <tr class="t-foot" ng-show="total_count>PerPage">
+                                    <th colspan="10">
+                                        <dir-pagination-controls max-size="8"
+                                                                 direction-links="true"
+                                                                 boundary-links="true"
+                                                                 on-page-change="getData(newPageNumber)" style="text-align:center;">
+                                        </dir-pagination-controls>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row pagination-footer">
+                            <div class="col-md-6">
+                                <span>Show </span><input class="input-pagesize" type="number" ng-maxlength="100" ng-minlength="1" width="1" ng-model="PerPage"> <span>Records </span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="pull-right">Showing {{((currentPage-1)*PerPage)+1}} to {{((currentPage-1)*PerPage)+SubcategoryList.length}} of {{total_count}} Records</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+

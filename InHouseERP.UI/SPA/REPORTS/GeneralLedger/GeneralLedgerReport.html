@@ -1,0 +1,221 @@
+﻿<form name="ChartOfAccountsReportForm" novalidate>
+    <div class="col-md-12">
+        <!--<div class="alert alert-info alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="topInfo"> &nbsp; &#9755; <span style="color:red;">Red Icon</span> Denotes Required Field &nbsp;&nbsp;&nbsp;&nbsp; &#9755; Click On A Table Row To Update</div>
+        </div>-->
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-shield"></i>&nbsp;{{name}}</h3>
+                <div class="clearfix">
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+
+                    </div>
+                    <div class="col-md-4">
+
+                        <p style="text-align:center;font-weight:bold;font-size:18px;">GENERAL LEDGER</p>
+
+                        <!--<div class="row">
+                            <div class="col-md-6" style="text-align:left">
+                                <span ><b>Form Date : </b> 5/29/2022</span>
+                            </div>
+                            <div class="col-md-6" style="text-align:right">
+                                <span > <b>To Date : </b> 5/28/2022 </span>
+                            </div>
+                        </div>-->
+
+                        <!--<p>
+                <span><span>Form Date </span> <span> To Date </span></span>
+            </p>-->
+                    </div>
+                    <div class="col-md-4">
+
+                    </div>
+                </div>
+                <br />
+             
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="txtFromDate" placeholder="Form Date" ng-model="generalFormDate" readonly />
+                            <span class="input-group-addon" ng-click="FormDateGeneralLedger()"><i class="fa fa-calendar req-icon-color"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+
+                            <input type="text" class="form-control" ng-model="generalToDate" id="txtToDate" placeholder="To Date" readonly />
+                            <span class="input-group-addon" ng-click="ToDateGeneralLedger()"><i class="fa fa-calendar req-icon-color"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <!--<input type="text" class="form-control" placeholder="Account Head And Code... " />-->
+                            <!--<div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search req-icon-color"></i></span>
+                <input type="text" class="form-control" placeholder="Account Head And Code... " />
+
+            </div>-->
+                            <div class="input-group input-group-md ddl">
+                                <select id="accountHead" ng-model="ddlAccounthead" class="form-control selectMendatory" name="ddlAccounthead" ng-options="aHead.Head+' ~ '+aHead.Code for aHead in AccountHeadList track by aHead.Code">
+                                    <option value="" label="--Select Account Head --"></option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button ng-click="GeneralLedgerLoad()" ng-disabled="!generalFormDate || !generalToDate || !ddlAccounthead" type="button" class="btn btn-primary" style="width:100%;">
+                                    <i class="fa fa fa-spinner"> </i> Load
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <button ng-click="OnReport()" ng-disabled="!generalFormDate || !generalToDate || !ddlAccounthead" type="button" class="btn btn-primary" style="width:100%;">
+                                    <i class="fa fa-print"> </i> Report
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <button ng-click="GeneralLedgerAndAccountHeadClear()" type="button" class="btn btn-danger" style="width:100%;">
+                                    <i class="fa fa-refresh"> </i> Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="responstable table-hover">
+                            <tr>
+                                <th class="t-cell-center">SL</th>
+                                <th class="t-cell-center">Date</th>
+                                <th class="t-cell-center">A/C Code</th>
+                                <th class="t-cell-center">Account Head</th>
+                                <th class="t-cell-center">Voucher No</th>
+                                <th class="t-cell-center">Dr. Amount</th>
+                                <th class="t-cell-center">Cr. Amount</th>
+                                <th class="t-cell-center">Particulars</th>
+                            </tr>
+
+                            <tr ng-repeat="aGL in GeneralLedgerList ">
+                                <td class="t-cell-center">{{$index+1}}</td>
+                                <td class="t-cell-center">{{aGL.VDate}}</td>
+                                <td class="t-cell-center">{{aGL.OpositCode}}</td>
+                                <td class="t-cell-center">{{aGL.OppositHead}}</td>
+                                <td class="t-cell-center">{{aGL.VoucherNo}}</td>
+                                <td class="t-cell-center">
+
+                                    <p ng-if="aGL.DrAmount==0">
+
+                                    </p>
+                                    <p ng-if="aGL.DrAmount!=0">
+                                        {{aGL.DrAmount}}
+                                    </p>
+                                </td>
+                                <td class="t-cell-center">
+                                    <p ng-if="aGL.CrAmount==0"></p>
+                                    <p ng-if="aGL.CrAmount!=0">{{aGL.CrAmount}}</p>
+                                </td>
+                                <td class="t-cell-center">
+                                    {{aGL.Particulars}}
+                                </td>
+
+                            </tr>
+
+                            <!--<tr>
+                                <td colspan="5" style="text-align:right;">Total:</td>
+                                <td class="t-cell-center"><b>{{TotalDrAmount}}</b></td>
+                                <td class="t-cell-center"><b>{{TotalCrAmount}}</b></td>
+                                <td></td>
+                            </tr>-->
+
+
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                   
+                                    <!--<td colspan="2"></td>-->
+                                    <td colspan="4" style="font-size:14px;text-align:right">
+                                        OPENING BALANCE 
+                                    </td>
+                                    <!--<td style="text-align:right">
+                                       
+                                    </td>-->
+
+                                    <td class="t-cell-center">
+                                        <!--{{GeneralLedgerList[0].DrAmount}} ---->
+                                        {{OpeningBalanceDebitTemp}}
+                                    </td>
+                                    <td class="t-cell-center">
+                                        {{OpeningBalanceCreditTemp}}
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="4" style="font-size: 14px; text-align: right">
+                                        CURRENT TOTAL
+                                    </td>
+                                    <!--<td style="text-align:right">
+                                       
+                                    </td>-->
+
+                                    <td class="t-cell-center">
+                                        {{TotalTempDebitBlance}}
+                                    </td>
+                                    <td class="t-cell-center">{{TotalTempCreditBlance}}</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                  
+                                   
+                                    <td colspan="4" style="font-size: 14px; text-align: right">
+                                       CLOSING BALANCE
+                                    </td>
+                                    <!--<td style="text-align:right">
+                                      
+                                    </td>-->
+
+                                    <td class="t-cell-center">
+                                        {{TotalDebitClosingBlance}}
+                                    </td>
+                                    <td class="t-cell-center">
+                                        {{TotalCreditClosingBlance}}
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                         
+
+                        </table>
+                        
+                    </div>
+                </div>
+
+
+       
+            </div>
+
+            </div>
+    </div>
+
+</form>
+
+<script>
+    $("#accountHead").select2({
+        placeholder: "--Select Account Head --",
+        theme: "classic",
+        dropdownAutoWidth: false
+    });
+</script>

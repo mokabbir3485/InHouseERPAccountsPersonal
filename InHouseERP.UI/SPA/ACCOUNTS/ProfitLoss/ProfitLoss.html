@@ -1,0 +1,156 @@
+﻿<form name="ProfitLossForm" novalidate>
+    <div class="col-md-12">
+        <div class="alert alert-info alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="topInfo"> &nbsp; &#9755; <span style="color:red;">Red Icon</span> Denotes Required Field &nbsp;&nbsp;&nbsp;&nbsp; &#9755; Click On A Table Row To Update</div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-shield"></i>&nbsp;Profit And Loss</h3>
+                <div class="clearfix">
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="txtFromDate" placeholder="Form Date" ng-model="FormDate" readonly />
+                            <span class="input-group-addon" ng-click="FormDateProfitLossReport()"><i class="fa fa-calendar req-icon-color"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+
+                            <input type="text" class="form-control" ng-model="ToDate" id="txtToDate" placeholder="To Date" readonly />
+                            <span class="input-group-addon" ng-click="ToDateProfitLossReport()"><i class="fa fa-calendar req-icon-color"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : ProfitLossForm.Department.$dirty && ProfitLossForm.Department.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Select Department">
+                            <div class="input-group input-group-md ddl">
+                                <select id="ddlDepartment" ng-model="ddlDepartment" class="form-control selectMendatory" name="Department" ng-options="aDepartment.DepartmentName for aDepartment in DepartmentList track by aDepartment.DeptID" ng-change="GetProfitLossReport(ddlDepartment.DeptID)">
+                                    <option value="" label="--Select Department--"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : ProfitLossForm.Department.$dirty && ProfitLossForm.Department.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Select Department">
+                            <button ng-click="OpenReport()">
+                                Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="responstable table-hover">
+                            <tr>
+                                <th class="t-cell-center"></th>
+                                <th class="t-cell-center">SL</th>
+                                <th class="t-cell-center">Main Group</th>
+                                <th class="t-cell-center" style="width:auto">Debit</th>
+                                <th class="t-cell-center" style="width:auto">Credit</th>
+                            </tr>
+                            <tbody ng-repeat="aMainGroup in MainGroupList">
+                                <tr>
+                                    <td ng-click="$event.stopPropagation();" class="t-cell-center"><label><i ng-show="!aMainGroup.DisplaySta" class="fa fa-plus-square"></i><i ng-show="aMainGroup.DisplaySta" class="fa fa-minus-square"></i><input style="visibility:hidden;" type="checkbox" ng-model="aMainGroup.DisplaySta" ng-click="GetSubMainGroupList(aMainGroup, aMainGroup.DisplaySta)" /></label></td>
+                                    <td class="t-cell-center">{{$index+1}}</td>
+                                    <td class="t-cell-center">{{aMainGroup.MainGroup}}</td>
+                                    <td class="t-cell-center" style="width:auto">{{aMainGroup.Debit}}</td>
+                                    <td class="t-cell-center" style="width:auto">{{aMainGroup.Credit}}</td>
+                                </tr>
+                                <tr ng-click="$event.stopPropagation();" ng-show="aMainGroup.DisplaySta">
+                                    <td></td>
+                                    <td colspan="4">
+
+                                        <table class="responstable table-hover">
+                                            <tr>
+                                                <th class="t-cell-center"></th>
+                                                <th class="t-cell-center">SL</th>
+                                                <th class="t-cell-center" style="width:auto">Sub Main Group</th>
+                                                <th class="t-cell-center" style="width:auto">Debit</th>
+                                                <th class="t-cell-center" style="width:auto">Credit</th>
+                                            </tr>
+                                            <tbody ng-repeat="aSubMainGroup in SubMainGroupList">
+                                                <tr>
+                                                    <td ng-click="$event.stopPropagation();" class="t-cell-center"><label><i ng-show="!aSubMainGroup.DisplaySta2" class="fa fa-plus-square"></i><i ng-show="aSubMainGroup.DisplaySta2" class="fa fa-minus-square"></i><input style="visibility:hidden;" type="checkbox" ng-model="aSubMainGroup.DisplaySta2" ng-click="GetSubGroupHeadList(aSubMainGroup, aSubMainGroup.DisplaySta2)" /></label></td>
+                                                    <td class="t-cell-center">{{$index+1}}</td>
+                                                    <td class="t-cell-center" style="width:auto">{{aSubMainGroup.SubMainGroup}}</td>
+                                                    <td class="t-cell-center" style="width:auto">{{aSubMainGroup.Debit}}</td>
+                                                    <td class="t-cell-center" style="width:auto">{{aSubMainGroup.Credit}}</td>
+                                                </tr>
+                                                <tr ng-click="$event.stopPropagation();" ng-show="aSubMainGroup.DisplaySta2">
+                                                    <td></td>
+                                                    <td colspan="4">
+
+                                                        <table class="responstable table-hover">
+                                                            <tr>
+                                                                <th class="t-cell-center"></th>
+                                                                <th class="t-cell-center">SL</th>
+                                                                <th class="t-cell-center" style="width:auto">Sub Group Head</th>
+                                                                <th class="t-cell-center" style="width:auto">Debit</th>
+                                                                <th class="t-cell-center" style="width:auto">Credit</th>
+                                                            </tr>
+                                                            <tbody ng-repeat="aSubGroupHead in SubGroupHeadList">
+                                                                <tr>
+                                                                    <td ng-click="$event.stopPropagation();" class="t-cell-center"><label><i ng-show="!aSubGroupHead.DisplaySta3" class="fa fa-plus-square"></i><i ng-show="aSubGroupHead.DisplaySta3" class="fa fa-minus-square"></i><input style="visibility:hidden;" type="checkbox" ng-model="aSubGroupHead.DisplaySta3" ng-click="GetHeadList(aSubGroupHead, aSubGroupHead.DisplaySta3)" /></label></td>
+                                                                    <td class="t-cell-center">{{$index+1}}</td>
+                                                                    <td class="t-cell-center" style="width:auto">{{aSubGroupHead.SubGroupHead}}</td>
+                                                                    <td class="t-cell-center" style="width:auto">{{aSubGroupHead.Debit}}</td>
+                                                                    <td class="t-cell-center" style="width:auto">{{aSubGroupHead.Credit}}</td>
+                                                                </tr>
+                                                                <tr ng-click="$event.stopPropagation();" ng-show="aSubGroupHead.DisplaySta3">
+                                                                    <td></td>
+                                                                    <td colspan="4">
+
+                                                                        <table class="responstable table-hover">
+                                                                            <tr>
+                                                                                <th class="t-cell-center">SL</th>
+                                                                                <th class="t-cell-center" style="width:auto">Head Code</th>
+                                                                                <th class="t-cell-center" style="width:auto">Head</th>
+                                                                                <th class="t-cell-center" style="width:auto">Debit</th>
+                                                                                <th class="t-cell-center" style="width:auto">Credit</th>
+                                                                            </tr>
+                                                                            <tbody ng-repeat="aHead in HeadList">
+                                                                                <tr>
+                                                                                    <td class="t-cell-center">{{$index+1}}</td>
+                                                                                    <td class="t-cell-center" style="width:auto">{{aHead.AccCode}}</td>
+                                                                                    <td class="t-cell-center" style="width:auto">{{aHead.Head}}</td>
+                                                                                    <td class="t-cell-center" style="width:auto">{{aHead.Debit}}</td>
+                                                                                    <td class="t-cell-center" style="width:auto">{{aHead.Credit}}</td>
+                                                                                </tr>
+
+                                                                            </tbody>
+
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" style="width:auto; text-align:right;">Total Profit or Loss: </td>
+                                    <td colspan="2" class="t-cell-center" style="width:auto">{{TotalProfitAndLoss}}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</form>

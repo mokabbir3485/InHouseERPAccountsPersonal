@@ -1,0 +1,635 @@
+<style>
+    /*#CompanyDiv .select2-container {
+        width: 146px !important;
+    }*/
+</style>
+<form name="JournalVoucherForm" novalidate>
+    <div class="col-md-12">
+        <div class="alert alert-info alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="topInfo"> &nbsp; &#9755; <span style="color:red;">Red Icon</span> Denotes Required Field &nbsp;&nbsp;&nbsp;&nbsp; &#9755; Click On A Table Row To Update/Delete</div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="row">
+                    <h3 class="panel-title">&nbsp; <i class="fa fa-list"></i>&nbsp;Journal Voucher Entry</h3>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : JournalVoucherForm.ddlBranch.$dirty && JournalVoucherForm.ddlBranch.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Select Branch">
+                            <div class="input-group input-group-md ddl">
+                                <select id="ddlBranch" ng-model="ddlBranch" class="form-control selectMendatory" name="ddlBranch" ng-options="aBranch.BranchName for aBranch in BranchList track by aBranch.BranchID" disabled>
+                                    <option value="" label="--Select Branch--"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : JournalVoucherForm.Department.$dirty && JournalVoucherForm.Department.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Select Department">
+                            <div class="input-group input-group-md ddl">
+                                <select id="ddlDepartment" ng-model="ddlDepartment" class="form-control selectMendatory" name="Department" ng-options="aDepartment.DepartmentName for aDepartment in DepartmentList track by aDepartment.DeptID">
+                                    <option value="" label="--Select Department--"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Voucher No">
+                            <div class="input-group">
+                                <input type="text" name="VoucherNo" id="textVoucheNo" class="form-control txt-center" ng-model="JournalVoucher.VoucherNo" placeholder="Voucher No" readonly>
+                                <span class="input-group-addon"><i class="fa fa-text-width req-icon-color"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : JournalVoucherForm.VDate.$invalid && JournalVoucherForm.VDate.$touched }" data-toggle="tooltip" data-placement="bottom" title="Voucher Date">
+                            <div class="input-group">
+                                <input type="text" id="textVoucherDate" ng-model="JournalVoucher.VDate" name="VoucherDate" class="form-control " placeholder="Voucher Date" readonly />
+                                <span class="input-group-addon" ng-click="VoucherDateChange()" id="VoucheDateTime"><i class="fa fa-calendar " style="color:red;"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+
+
+                    <div class="col-md-6">
+                        <div class="form-group" ng-class="{ 'has-error' : JournalVoucherForm.DrHead.$dirty && JournalVoucherForm.DrHead.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Select Dr Head">
+                            <div class="input-group input-group-md ddl">
+                                <select id="ddlDrHead" ng-model="ddlDrHead" ng-change="OnDebitAmountFilter(ddlDrHead);OnCreditAmountFilter(ddlDrHead); JournalVoucher.DrCode = ddlDrHead.Code; JournalVoucher.DrHead = ddlDrHead.Head;" class="form-control selectMendatory" name="DrHead" ng-options="aHead.Head + ' - ' + aHead.Code for aHead in AccountHeadList track by aHead.Code">
+                                    <option value="" label="--Select Dr Head And Code --"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Dr Amount">
+                            <div class="input-group">
+                                <input type="number" name="DrAmount" class="form-control txt-center" ng-model="JournalVoucher.DrAmount" ng-change="WastageCalculetion(); CalValue();CreaditBlanceCheck()" placeholder="Dr Amount">
+                                <span class="input-group-addon"><i class="fa fa-qq req-icon-color"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+
+                    <div class="col-md-6">
+                        <div class="form-group" ng-class="{ 'has-error' : JournalVoucherForm.CrHead.$dirty && JournalVoucherForm.CrHead.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Select Cr Head">
+                            <div class="input-group input-group-md ddl">
+                                <select id="ddlCrHead" ng-model="ddlCrHead" ng-disabled="!ddlDrHead" class="form-control selectMendatory" name="CrHead" ng-change="FilterCreditCodeUpDate(ddlCrHead); JournalVoucher.CrCode = ddlCrHead.Code; JournalVoucher.CrHead = ddlCrHead.Head;" ng-options="aHead.Head + ' - ' + aHead.Code for aHead in AccountHeadFilterList track by aHead.Code">
+                                    <option value="" label="--Select Cr Head And Code --"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Cr Amount">
+                            <div class="input-group">
+                                <input type="number" name="CrAmount" class="form-control txt-center" ng-model="JournalVoucher.CrAmount" ng-change="CheckDebitAndCreditBlance()" placeholder="Cr Amount">
+                                <span class="input-group-addon"><i class="fa fa-qq req-icon-color"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Invoice No">
+                            <div class="input-group">
+                                <input type="text" name="InvoiceNo" class="form-control txt-center" ng-model="JournalVoucher.invoice_no" placeholder="Invoice No">
+                                <span class="input-group-addon"><i class="fa fa-text-width  "></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Cheque No">
+                            <div class="input-group">
+                                <input type="text" name="ChequeNo" class="form-control txt-center" ng-model="JournalVoucher.ChequeNo" placeholder="Cheque No">
+                                <span class="input-group-addon"><i class="fa fa-text-width  "></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group" ng-class="{ 'has-error' : JournalVoucherForm.ddlEmployee.$dirty && JournalVoucherForm.ddlEmployee.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Select Prepared By">
+                            <div class="input-group input-group-md ddl">
+                                <select id="ddlEmployee" ng-model="ddlEmployee" class="form-control selectMendatory" name="ddlEmployee" ng-options="aEmp.FullName + ' ~ ' + aEmp.DepartmentName for aEmp in EmployeeList track by aEmp.EmployeeId">
+                                    <option value="" >--Prepared  By --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                  
+
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Particulars">
+                            <div class="input-group">
+                                <textarea type="text" name="Particulars" rows="2" class="form-control " ng-model="JournalVoucher.Particulars" placeholder="Particulars"></textarea>
+                                <span class="input-group-addon"><i class="fa fa-text-width  "></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-6">
+                    </div>-->
+                    <div class="col-md-4">
+                        <button id="btnAdd" style="margin-top:20px;" class="customBtn custmoBtnReset" title="Add" ng-click="AddJournal()" ng-disabled="!ddlBranch  || !ddlDepartment  || !ddlDrHead || !ddlDrHead || !JournalVoucher.DrAmount ||!JournalVoucher.CrAmount">
+                            <i class=" fa fa-plus-square"></i>&nbsp;{{BtnName}}
+                        </button>
+                    </div>
+
+
+                </div>
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="responstable table-hover">
+                                <tr>
+                                    <th class="t-cell-center">SL No.</th>
+                                    <th class="t-cell-center">Department</th>
+                                    <th class="t-cell-center">Dr Head</th>
+                                    <th class="t-cell-center">Cr Head</th>
+                                    <th class="t-cell-center">Dr Amount</th>
+                                    <th class="t-cell-center">Cr Amount</th>
+                                    <th class="t-cell-center">Action</th>
+                                </tr>
+                                <tbody>
+                                    <tr ng-repeat="aJournal in JournalList track by $index">
+                                        <td class="t-cell-center">{{$index+1}}</td>
+
+                                        <td class="t-cell-center">{{aJournal.DepartmentName}}</td>
+                                        <td class="t-cell-center">{{aJournal.DrHead}} - {{aJournal.DrCode}}</td>
+
+                                        <td class="t-cell-center">{{aJournal.CrHead}} - {{aJournal.CrCode}}</td>
+
+                                        <td class="t-cell-center">{{aJournal.DrAmount}}</td>
+
+                                        <td class="t-cell-center">{{aJournal.CrAmount}}</td>
+                                        <td class="t-cell-center">
+                                            <button  ng-click="EditBtn(aJournal, $index)">
+                                                Edit
+                                            </button>
+                                            <button  ng-click="RemoveBtn(aJournal)">
+                                                Delete
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4" style="text-align:right;">Total:</td>
+                                        <td class="t-cell-center">{{TotalDebitAmount}}</td>
+                                        <td class="t-cell-center">{{TotalCreditAmount}}</td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-4">
+                        <button id="btnSave" class="customBtn custmoBtnSave" ng-click="JournalVoucherSave()" ng-disabled="!JournalList.length > 0"  title="Save">
+                            <i class="fa fa-save"></i>&nbsp;Submit
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <button id="Button3" class="customBtn custmoBtnReset" title="Reset" ng-click="resetForm()">
+                            <i class="fa fa-refresh"></i>&nbsp;Reset
+                        </button>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="row" >
+
+                <div class="col-md-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title pull-left "><i class="fa fa-check"></i>&nbsp;Journal Voucher List</h3>
+                            <div class="clearfix">
+                            </div>
+                        </div>
+
+                        <div class="panel-footer">
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group " data-toggle="tooltip" title="From Date">
+
+                                            <input type="text" name="FromDate" id="txtFromJV" ng-model="FromDate" ng-change="JVGetPagedSearch();" class="form-control " placeholder="From Date" readonly />
+                                            <span class="input-group-addon" ng-click="FormDateChangeForJournalVoucher()" id="idFormDateChangeForJournalVoucher"><i class="fa fa-calendar req-icon-color"></i></span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group " data-toggle="tooltip" title="To Date">
+                                            <input type="text" name="ToDate" id="txtToDateForJV" ng-model="ToDate" ng-change="JVGetPagedSearch();" class="form-control " placeholder="To Date" readonly />
+                                            <span class="input-group-addon" ng-click="ToDateChangeForJournalVoucher()" id="ToDateChangeForSO"><i class="fa fa-calendar req-icon-color"></i></span>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group" data-toggle="tooltip" title="Search Voucher No">
+
+                                        <div class="input-group ">
+                                            <input type="text" class="form-control" id="textVoucherNo" ng-model="SearchInputFiled" ng-change="JVGetPagedSearch();" name="name" placeholder="Search Voucher No..." />
+                                            <span class="input-group-addon"><i class="fa fa-search" style="color: #286090;"></i></span>
+                                        </div>
+
+                                      
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button id="btnSearch" ng-click="reloadBtn()" style="width:100%" class="btn btn-danger" title="Reload">
+                                        <i class="fa fa-refresh"></i>&nbsp;Clear
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <hr />
+                            <table class="responstable table-hover table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th class="t-cell-center">S/N</th>
+                                        <th class="t-cell-center">Voucher No</th>
+                                        <th class="t-cell-center">Voucher Date</th>
+                                       
+                                        <!--<th class="t-cell-center">Department</th>-->
+                                        <th class="t-cell-center">Dr Head</th>
+                                        <th class="t-cell-center">Cr Head</th>
+                                        <!--<th class="t-cell-center">Cheque No</th>-->
+
+                                        <th class="t-cell-center">Dr Amount </th>
+                                        <th class="t-cell-center">Cr Amount </th>
+                                        <!--<th class="t-cell-center">Particulars </th>-->
+
+                                        <th class="t-cell-center">Action</th>
+                                    </tr>
+                                    <tr class="HoverTable searchRow" dir-paginate="Journal in JournalGetPagedListForGrid | itemsPerPage: PerPage" current-page="currentPage" total-items="total_count">
+                                        <td class="t-cell-center">{{$index + ((currentPage-1)*PerPage) + 1}}</td>
+                                        <td class="t-cell-center">{{Journal.VoucherNo}}</td>
+                                        <td class="t-cell-center">{{Journal.VDate}}</td>
+                                        <!--<td class="t-cell-center">{{Journal.DepartmentName}}</td>-->
+                                        <td class="t-cell-center">{{Journal.DrHead}} - {{Journal.DrCode}}</td>
+                                        <td class="t-cell-center">{{Journal.CrHead}} - {{Journal.CrCode}}</td>
+                                        <!--<td class="t-cell-center">{{Journal.ChequeNo}}</td>-->
+                                        <td class="t-cell-center">{{Journal.DrAmount}}</td>
+                                        <td class="t-cell-center">{{Journal.CrAmount}}</td>
+                                        <!--<td class="t-cell-center">{{Journal.Particulars}}</td>-->
+                                         
+                                        <td class="t-cell-center" style="width:20%">
+                                            <button  style="font-size: 13px; "
+                                                    ng-click="JornalVoucherUpdate(Journal);">
+                                                <i title="Report" class="fa fa-edit" style="font-size:18px;"> </i> Edit
+                                            </button>
+                                            <button  style="font-size: 13px; "
+                                                   ng-click="OpenVoucherReport(Journal.VoucherNo)">
+                                                <i title="Report" class="fa fa-print" style="font-size:18px;"> </i> Report
+                                            </button>
+                                         
+                                        </td>
+
+
+                                    </tr>
+                                    <tr class="t-foot" ng-show="total_count>PerPage">
+                                        <th colspan="10">
+                                            <dir-pagination-controls max-size="8"
+                                                                     direction-links="true"
+                                                                     boundary-links="true"
+                                                                     on-page-change="getData(newPageNumber)" style="text-align:center;">
+                                            </dir-pagination-controls>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row pagination-footer">
+                                <div class="col-md-6">
+                                    <span>Show </span><input class="input-pagesize" type="number" ng-maxlength="100" ng-minlength="1" width="1" ng-model="PerPage"> <span>Records </span>
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="pull-right">Showing {{((currentPage-1)*PerPage)+1}} to {{((currentPage-1) * PerPage) + JournalGetPagedListForGrid.length}} of {{total_count}} Records</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</form>
+<!--<pre>{{AllCombinationSearch | json}}</pre>-->
+<script>
+
+    $("#ddlEmployee").select2({
+        //placeholder: "--Prepared By --",
+        //theme: "classic",
+        dropdownAutoWidth: false
+    });
+
+    $("#ddlCrHead").select2({
+        placeholder: "--Select Cr Head And Code --",
+        theme: "classic",
+        dropdownAutoWidth: false
+    });
+    $("#ddlDrHead").select2({
+        placeholder: "--Select Dr Head And Code --",
+        theme: "classic",
+        dropdownAutoWidth: false
+    });
+
+    //$("#ddlBranch").select2({
+    //    placeholder: "--Select Branch--",
+    //    theme: "classic",
+    //    dropdownAutoWidth: false
+    //});
+    
+    var elements = document.getElementsByClassName("arrow-togglable");
+    var currentIndex = 0;
+
+    function newControl(e) {
+        elements = document.getElementsByClassName("arrow-togglable");
+        currentIndex = 0;
+        if (window.event.which == 40) {
+            currentIndex = ((currentIndex + 1) == elements.length) ? 0 : ++currentIndex;
+            elements[currentIndex].focus();
+        }
+        if (window.event.which == 38) {
+            currentIndex = (currentIndex == 0) ? elements.length - 1 : --currentIndex;
+            elements[currentIndex].focus();
+        }
+    }
+
+    function nextControlFromSugession(e) {
+        if (window.event.which == 40) {
+            currentIndex = ((currentIndex + 1) == elements.length) ? 0 : ++currentIndex;
+            elements[currentIndex].focus();
+        }
+        if (window.event.which == 38) {
+            currentIndex = (currentIndex == 0) ? elements.length - 1 : --currentIndex;
+            elements[currentIndex].focus();
+        }
+    }
+    function Hilitor2(id, tag) {
+        var targetNode = document.getElementById(id) || document.body;
+        var hiliteTag = tag || "EM";
+        var skipTags = new RegExp("^(?:" + hiliteTag + "|SCRIPT|FORM)$");
+        var colors = ["#ff6", "#a0ffff", "#9f9", "#f99", "#f6f"];
+        var wordColor = [];
+        var colorIdx = 0;
+        var matchRegex = "";
+        var openLeft = false;
+        var openRight = false;
+
+        this.setMatchType = function (type) {
+            switch (type) {
+                case "left":
+                    this.openLeft = false;
+                    this.openRight = true;
+                    break;
+
+                case "right":
+                    this.openLeft = true;
+                    this.openRight = false;
+                    break;
+
+                case "open":
+                    this.openLeft = this.openRight = true;
+                    break;
+
+                default:
+                    this.openLeft = this.openRight = false;
+
+            }
+        };
+
+        function addAccents(input) {
+            retval = input;
+            retval = retval.replace(/([ao])e/ig, "$1");
+            retval = retval.replace(/\\u00E[024]/ig, "a");
+            retval = retval.replace(/\\u00E7/ig, "c");
+            retval = retval.replace(/\\u00E[89AB]/ig, "e");
+            retval = retval.replace(/\\u00E[EF]/ig, "i");
+            retval = retval.replace(/\\u00F[46]/ig, "o");
+            retval = retval.replace(/\\u00F[9BC]/ig, "u");
+            retval = retval.replace(/\\u00FF/ig, "y");
+            retval = retval.replace(/\\u00DF/ig, "s");
+            retval = retval.replace(/a/ig, "([a� âä]|ae)");
+            retval = retval.replace(/c/ig, "[cç]");
+            retval = retval.replace(/e/ig, "[eèéêë]");
+            retval = retval.replace(/i/ig, "[iîï]");
+            retval = retval.replace(/o/ig, "([oôö]|oe)");
+            retval = retval.replace(/u/ig, "[uùûü]");
+            retval = retval.replace(/y/ig, "[yÿ]");
+            retval = retval.replace(/s/ig, "(ss|[sß])");
+            return retval;
+        }
+
+        this.setRegex = function (input) {
+            input = input.replace(/\\([^u]|$)/g, "$1");
+            input = input.replace(/[^\w\\\s']+/g, "").replace(/\s+/g, "|");
+            input = input.replace(/^\||\|$/g, "");
+            input = addAccents(input);
+            if (input) {
+                var re = "(" + input + ")";
+                if (!this.openLeft) re = "(?:^|[\\b\\s])" + re;
+                if (!this.openRight) re = re + "(?:[\\b\\s]|$)";
+                matchRegex = new RegExp(re, "i");
+                return true;
+            }
+            return false;
+        };
+
+        this.getRegex = function () {
+            var retval = matchRegex.toString();
+            retval = retval.replace(/(^\/|\(\?:[^\)]+\)|\/i$)/g, "");
+            return retval;
+        };
+
+        // recursively apply word highlighting
+        this.hiliteWords = function (node) {
+            if (node === undefined || !node) return;
+            if (!matchRegex) return;
+            if (skipTags.test(node.nodeName)) return;
+
+            if (node.hasChildNodes()) {
+                for (var i = 0; i < node.childNodes.length; i++)
+                    this.hiliteWords(node.childNodes[i]);
+            }
+            if (node.nodeType == 3) { // NODE_TEXT
+                if ((nv = node.nodeValue) && (regs = matchRegex.exec(nv))) {
+                    if (!wordColor[regs[1].toLowerCase()]) {
+                        wordColor[regs[1].toLowerCase()] = colors[colorIdx++ % colors.length];
+                    }
+
+                    var match = document.createElement(hiliteTag);
+                    match.appendChild(document.createTextNode(regs[1]));
+                    match.style.backgroundColor = wordColor[regs[1].toLowerCase()];
+                    match.style.fontStyle = "inherit";
+                    match.style.color = "#000";
+
+                    var after;
+                    if (regs[0].match(/^\s/)) { // in case of leading whitespace
+                        after = node.splitText(regs.index + 1);
+                    } else {
+                        after = node.splitText(regs.index);
+                    }
+                    after.nodeValue = after.nodeValue.substring(regs[1].length);
+                    node.parentNode.insertBefore(match, after);
+                }
+            };
+        };
+
+        // remove highlighting
+        this.remove = function () {
+            var arr = document.getElementsByTagName(hiliteTag);
+            while (arr.length && (el = arr[0])) {
+                var parent = el.parentNode;
+                parent.replaceChild(el.firstChild, el);
+                parent.normalize();
+            }
+        };
+
+        // start highlighting at target node
+        this.apply = function (input) {
+            // this.remove();
+            if (input === undefined || !(input = input.replace(/(^\s+|\s+$)/g, ""))) return;
+            input = convertCharStr2jEsc(input);
+            if (this.setRegex(input)) {
+                this.hiliteWords(targetNode);
+            }
+        };
+
+        // added by Yanosh Kunsh to include utf-8 string comparison
+        function dec2hex4(textString) {
+            var hexequiv = new Array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F");
+            return hexequiv[(textString >> 12) & 0xF] + hexequiv[(textString >> 8) & 0xF] + hexequiv[(textString >> 4) & 0xF] + hexequiv[textString & 0xF];
+        }
+
+        function convertCharStr2jEsc(str, cstyle) {
+            // Converts a string of characters to JavaScript escapes
+            // str: sequence of Unicode characters
+            var highsurrogate = 0;
+            var suppCP;
+            var pad;
+            var n = 0;
+            var outputString = '';
+            for (var i = 0; i < str.length; i++) {
+                var cc = str.charCodeAt(i);
+                if (cc < 0 || cc > 0xFFFF) {
+                    outputString += '!Error in convertCharStr2UTF16: unexpected charCodeAt result, cc=' + cc + '!';
+                }
+                if (highsurrogate != 0) { // this is a supp char, and cc contains the low surrogate
+                    if (0xDC00 <= cc && cc <= 0xDFFF) {
+                        suppCP = 0x10000 + ((highsurrogate - 0xD800) << 10) + (cc - 0xDC00);
+                        if (cstyle) {
+                            pad = suppCP.toString(16);
+                            while (pad.length < 8) {
+                                pad = '0' + pad;
+                            }
+                            outputString += '\\U' + pad;
+                        } else {
+                            suppCP -= 0x10000;
+                            outputString += '\\u' + dec2hex4(0xD800 | (suppCP >> 10)) + '\\u' + dec2hex4(0xDC00 | (suppCP & 0x3FF));
+                        }
+                        highsurrogate = 0;
+                        continue;
+                    } else {
+                        outputString += 'Error in convertCharStr2UTF16: low surrogate expected, cc=' + cc + '!';
+                        highsurrogate = 0;
+                    }
+                }
+                if (0xD800 <= cc && cc <= 0xDBFF) { // start of supplementary character
+                    highsurrogate = cc;
+                } else { // this is a BMP character
+                    switch (cc) {
+                        case 0:
+                            outputString += '\\0';
+                            break;
+                        case 8:
+                            outputString += '\\b';
+                            break;
+                        case 9:
+                            outputString += '\\t';
+                            break;
+                        case 10:
+                            outputString += '\\n';
+                            break;
+                        case 13:
+                            outputString += '\\r';
+                            break;
+                        case 11:
+                            outputString += '\\v';
+                            break;
+                        case 12:
+                            outputString += '\\f';
+                            break;
+                        case 34:
+                            outputString += '\\\"';
+                            break;
+                        case 39:
+                            outputString += '\\\'';
+                            break;
+                        case 92:
+                            outputString += '\\\\';
+                            break;
+                        default:
+                            if (cc > 0x1f && cc < 0x7F) {
+                                outputString += String.fromCharCode(cc);
+                            } else {
+                                pad = cc.toString(16).toUpperCase();
+                                while (pad.length < 4) {
+                                    pad = '0' + pad;
+                                }
+                                outputString += '\\u' + pad;
+                            }
+                    }
+                }
+            }
+            return outputString;
+        }
+
+    }
+</script>

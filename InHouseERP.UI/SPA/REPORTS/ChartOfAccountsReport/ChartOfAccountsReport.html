@@ -1,0 +1,175 @@
+﻿<form name="ChartOfAccountsReportForm" novalidate>
+    <div class="col-md-12">
+        <div class="alert alert-info alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="topInfo"> &nbsp; &#9755; <span style="color:red;">Red Icon</span> Denotes Required Field &nbsp;&nbsp;&nbsp;&nbsp; &#9755; Click On A Table Row To Update</div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-shield"></i>&nbsp;Chart Of Accounts Report</h3>
+                <div class="clearfix">
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="responstable table-hover">
+                            <tr>
+                                <th class="t-cell-center"></th>
+                                <th class="t-cell-center">SL</th>
+                                <th class="t-cell-center">Main Group ID</th>
+                                <th class="t-cell-center">Main Group Name</th>
+                            </tr>
+                            <tbody ng-repeat="aMainGroup in MainGroupList">
+                                <tr>
+                                    <td ng-click="$event.stopPropagation();" class="t-cell-center"><label><i ng-show="!aMainGroup.DisplaySta" class="fa fa-plus-square"></i><i ng-show="aMainGroup.DisplaySta" class="fa fa-minus-square"></i><input style="visibility:hidden;" type="checkbox" ng-model="aMainGroup.DisplaySta"  ng-click="GetSubMainGroupList(aMainGroup, aMainGroup.DisplaySta)" /></label></td>
+                                    <td class="t-cell-center">{{$index+1}}</td>
+                                    <td class="t-cell-center">{{aMainGroup.MainGroupID}}</td>
+                                    <td class="t-cell-center">{{aMainGroup.MainGroupName}}</td>
+                                </tr>
+                                <tr ng-click="$event.stopPropagation();" ng-show="aMainGroup.DisplaySta">
+                                    <td></td>
+                                    <td colspan="3">
+
+                                        <table class="responstable table-hover">
+                                            <tr>
+                                                <th class="t-cell-center"></th>
+                                                <th class="t-cell-center">SL</th>
+                                                <th class="t-cell-center" style="width:auto">Sub Main Group ID</th>
+                                                <th class="t-cell-center" style="width:auto">Sub Main Group Name</th>
+                                                <th class="t-cell-center" style="width:auto">Sub Main Group Description</th>
+                                            </tr>
+                                            <tbody ng-repeat="aSubMainGroup in SubMainGroupList">
+                                                <tr>
+                                                    <td ng-click="$event.stopPropagation();" class="t-cell-center"><label><i ng-show="!aSubMainGroup.DisplaySta2" class="fa fa-plus-square"></i><i ng-show="aSubMainGroup.DisplaySta2" class="fa fa-minus-square"></i><input style="visibility:hidden;" type="checkbox" ng-model="aSubMainGroup.DisplaySta2" ng-click="GetSubGroupHeadList(aSubMainGroup, aSubMainGroup.DisplaySta2)"/></label></td>
+                                                    <td class="t-cell-center">{{$index+1}}</td>
+                                                    <td class="t-cell-center" style="width:auto">{{aSubMainGroup.SubMainGroupID}}</td>
+                                                    <td class="t-cell-center" style="width:auto">{{aSubMainGroup.SubMainGroupName}}</td>
+                                                    <td class="t-cell-center" style="width:auto">{{aSubMainGroup.SubMainGroupDescription}}</td>
+                                                </tr>
+                                                <tr ng-click="$event.stopPropagation();" ng-show="aSubMainGroup.DisplaySta2">
+                                                    <td></td>
+                                                    <td colspan="4">
+
+                                                        <table class="responstable table-hover">
+                                                            <tr>
+                                                                <!--<th class="t-cell-center"></th>-->
+                                                                <th class="t-cell-center">SL</th>
+                                                                <th class="t-cell-center" style="width:auto">Sub Group Head ID</th>
+                                                                <th class="t-cell-center" style="width:auto">Sub Group Head Name</th>
+                                                                <th class="t-cell-center" style="width:auto">Sub Group Head Description</th>
+                                                            </tr>
+                                                            <tbody ng-repeat="aSubGroupHead in SubGroupHeadList">
+                                                                <tr>
+                                                                    <!--<td ng-click="$event.stopPropagation();" class="t-cell-center"><label><i ng-show="!aChartOfAccountsReport.DisplaySta2" class="fa fa-plus-square"></i><i ng-show="aChartOfAccountsReport.DisplaySta2" class="fa fa-minus-square"></i><input style="visibility:hidden;" type="checkbox" ng-model="aChartOfAccountsReport.DisplaySta2" /></label></td>-->
+                                                                    <td class="t-cell-center">{{$index+1}}</td>
+                                                                    <td class="t-cell-center" style="width:auto">{{aSubGroupHead.SubGroupHeadID}}</td>
+                                                                    <td class="t-cell-center" style="width:auto">{{aSubGroupHead.SubGroupHeadName}}</td>
+                                                                    <td class="t-cell-center" style="width:auto">{{aSubGroupHead.SubGroupHeadDescription}}</td>
+                                                                </tr>
+
+                                                            </tbody>
+
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                                
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <!--<div class="row">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="responstable table-hover">
+                                <tr>
+                                    <th class="t-cell-center"></th>
+                                    <th class="t-cell-center">SL.No</th>
+                                    <th class="t-cell-center" style="width:15%;">Main Group ID</th>
+                                    <th class="t-cell-center">Main Group Name</th>
+                                </tr>
+                                <tbody ng-repeat="aChartOfAccountsReport in ChartOfAccountsReportList">
+
+                                    <tr>
+                                        <td class="t-cell-center"><label><i ng-show="!aChartOfAccountsReport.DisplaySta" class="fa fa-plus-square"></i><i ng-show="aChartOfAccountsReport.DisplaySta" class="fa fa-minus-square"></i><input style="visibility:hidden;" type="checkbox" ng-model="aChartOfAccountsReport.DisplaySta" ng-change="AutoCollase(aChartOfAccountsReport);" /></label></td>
+                                        <td class="t-cell-center">{{$index+1}}</td>
+                                        <td class="t-cell-center">{{aChartOfAccountsReport.MainGroupID}}</td>
+                                        <td class="t-cell-center">{{aChartOfAccountsReport.MainGroupName}}</td>
+
+                                    </tr>
+                                    <tr ng-click="$event.stopPropagation();" ng-show="aChartOfAccountsReport.DisplaySta">
+                                        <td></td>
+                                        <td colspan="6">
+                                            <table class="responstable table-hover">
+                                                <tr>
+                                                    <th class="t-cell-center"></th>
+                                                    <th>SL.No</th>
+                                                    <th class="t-cell-center">PB No</th>
+                                                    <th class="t-cell-center">PB Date</th>
+                                                    <th class="t-cell-center">Actual Amount</th>
+                                                    <th class="t-cell-center">Payable Amount</th>
+                                                    <th class="t-cell-center">Paid Amount</th>
+                                                </tr>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="t-cell-center"><label><i ng-show="!aChartOfAccountsReport.DisplaySta2" class="fa fa-plus-square"></i><i ng-show="aChartOfAccountsReport.DisplaySta2" class="fa fa-minus-square"></i><input style="visibility:hidden;" type="checkbox" ng-model="aChartOfAccountsReport.DisplaySta2" ng-change="AutoCollase2(aChartOfAccountsReport);" /></label></td>
+                                                        <td>{{$index+1}}</td>
+                                                        <td class="t-cell-center">{{aChartOfAccountsReport.PBNo}}</td>
+                                                        <td class="t-cell-center">{{aChartOfAccountsReport.PBDate}}</td>
+                                                        <td class="t-cell-center">{{aChartOfAccountsReport.ActualAmount}}</td>
+                                                        <td class="t-cell-center">{{aChartOfAccountsReport.PayableAmount}}</td>
+                                                        <td class="t-cell-center">{{aChartOfAccountsReport.PaidAmount}}</td>
+                                                    </tr>
+                                                    <tr ng-if="aChartOfAccountsReport.DisplaySta2">
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td colspan="7">
+                                                            <table class="responstable table-hover">
+                                                                <tr>
+                                                                    <th>SL.No</th>
+                                                                    <th class="t-cell-center">Item Code</th>
+                                                                    <th class="t-cell-center">Item Name</th>
+                                                                    <th class="t-cell-center">Description</th>
+                                                                    <th class="t-cell-center">PB Qty </th>
+                                                                    <th class="t-cell-center">PB Price</th>
+                                                                </tr>
+                                                                <tr ng-repeat="aPurchaseBillDetail in PurchaseBillDetailList">
+                                                                    <td>{{$index+1}}</td>
+                                                                    <td class="t-cell-center">{{aPurchaseBillDetail.ItemCode}}</td>
+                                                                    <td class="t-cell-center">{{aPurchaseBillDetail.ItemName}}</td>
+                                                                    <td class="t-cell-center">{{aPurchaseBillDetail.Description}}</td>
+                                                                    <td class="t-cell-center">{{aPurchaseBillDetail.PBQty}}</td>
+                                                                    <td class="t-cell-center">{{aPurchaseBillDetail.PBPrice}}</td>
+                                                                </tr>
+                                                            </table>
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+
+        </div>
+    </div>
+
+</form>

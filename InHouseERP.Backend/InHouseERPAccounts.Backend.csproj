@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E3BD6F84-20F5-4199-8A65-99D5E4BD7294}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SecurityEntity</RootNamespace>
+    <AssemblyName>SecurityEntity</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ACCOUNTS\AccountsBLL\ac_ChartOfAccountBLL.cs" />
+    <Compile Include="ACCOUNTS\AccountsBLL\ac_ChartOfAccountsReportBLL.cs" />
+    <Compile Include="ACCOUNTS\AccountsBLL\Facade.cs" />
+    <Compile Include="ACCOUNTS\AccountsBLL\ac_JournalVoucherBLL.cs" />
+    <Compile Include="ACCOUNTS\AccountsDAL\ac_ChartOfAccountDAO.cs" />
+    <Compile Include="ACCOUNTS\AccountsDAL\ac_TransactionDAO.cs" />
+    <Compile Include="ACCOUNTS\AccountsDAL\ac_ChartOfAccountsReportDAO.cs" />
+    <Compile Include="ACCOUNTS\AccountsDAL\ac_JournalVoucherDAO.cs" />
+    <Compile Include="ACCOUNTS\AccountsEntity\ac_ChartOfAccountsReport.cs" />
+    <Compile Include="ACCOUNTS\AccountsEntity\ac_journal_t.cs" />
+    <Compile Include="ACCOUNTS\AccountsEntity\ac_ProfitLoss_t.cs" />
+    <Compile Include="ACCOUNTS\AccountsEntity\ad_TrialBalance_t.cs" />
+    <Compile Include="SECURITY\SecurityBLL\ad_EmployeeBLL.cs" />
+    <Compile Include="SECURITY\SecurityBLL\ad_SubGroupHeadBLL.cs" />
+    <Compile Include="SECURITY\SecurityBLL\ad_SubMainGroupBLL.cs" />
+    <Compile Include="SECURITY\SecurityDAL\ad_EmployeeDAO.cs" />
+    <Compile Include="SECURITY\SecurityDAL\ad_SubGroupHeadDAO.cs" />
+    <Compile Include="SECURITY\SecurityDAL\ad_SubMainGroupDAO.cs" />
+    <Compile Include="ACCOUNTS\AccountsEntity\ac_ChartOfAccount.cs" />
+    <Compile Include="ACCOUNTS\AccountsEntity\ac_Transaction.cs" />
+    <Compile Include="SECURITY\SecurityEntity\ad_Employee.cs" />
+    <Compile Include="SECURITY\SecurityEntity\ad_MainGroup.cs" />
+    <Compile Include="SECURITY\SecurityEntity\ad_SubGroupHead.cs" />
+    <Compile Include="SECURITY\SecurityEntity\ad_SubMainGroup.cs" />
+    <Compile Include="DbExecutor\Common.cs" />
+    <Compile Include="DbExecutor\DBExecutor.cs" />
+    <Compile Include="DbExecutor\DBUtility.cs" />
+    <Compile Include="DbExecutor\error_Log.cs" />
+    <Compile Include="DbExecutor\error_LogBLL.cs" />
+    <Compile Include="DbExecutor\error_LogDAO.cs" />
+    <Compile Include="DbExecutor\IEntityBase.cs" />
+    <Compile Include="DbExecutor\Parameters.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SECURITY\SecurityBLL\ad_DomainBLL.cs" />
+    <Compile Include="SECURITY\SecurityBLL\ad_LoginLogoutLogBLL.cs" />
+    <Compile Include="SECURITY\SecurityBLL\ad_NoticeBLL.cs" />
+    <Compile Include="SECURITY\SecurityBLL\ad_NoticeDetailBLL.cs" />
+    <Compile Include="SECURITY\SecurityBLL\ad_TransactionTypeBLL.cs" />
+    <Compile Include="SECURITY\SecurityBLL\Facade.cs" />
+    <Compile Include="SECURITY\SecurityBLL\s_ModuleBLL.cs" />
+    <Compile Include="SECURITY\SecurityBLL\s_PermissionBLL.cs" />
+    <Compile Include="SECURITY\SecurityBLL\s_PermissionDetailBLL.cs" />
+    <Compile Include="SECURITY\SecurityBLL\s_RoleBLL.cs" />
+    <Compile Include="SECURITY\SecurityBLL\s_ScreenBLL.cs" />
+    <Compile Include="SECURITY\SecurityBLL\s_ScreenDetailBLL.cs" />
+    <Compile Include="SECURITY\SecurityBLL\s_ScreenLockBLL.cs" />
+    <Compile Include="SECURITY\SecurityBLL\s_UserBLL.cs" />
+    <Compile Include="SECURITY\SecurityBLL\s_UserDepartmentBLL.cs" />
+    <Compile Include="SECURITY\SecurityDAL\ad_DomainDAO.cs" />
+    <Compile Include="SECURITY\SecurityDAL\ad_LoginLogoutLogDAO.cs" />
+    <Compile Include="SECURITY\SecurityDAL\ad_NoticeDAO.cs" />
+    <Compile Include="SECURITY\SecurityDAL\ad_NoticeDetailDAO.cs" />
+    <Compile Include="SECURITY\SecurityDAL\ad_TransactionTypeDAO.cs" />
+    <Compile Include="SECURITY\SecurityDAL\s_ModuleDAO.cs" />
+    <Compile Include="SECURITY\SecurityDAL\s_PermissionDAO.cs" />
+    <Compile Include="SECURITY\SecurityDAL\s_PermissionDetailDAO.cs" />
+    <Compile Include="SECURITY\SecurityDAL\s_RoleDAO.cs" />
+    <Compile Include="SECURITY\SecurityDAL\s_ScreenDAO.cs" />
+    <Compile Include="SECURITY\SecurityDAL\s_ScreenDetailDAO.cs" />
+    <Compile Include="SECURITY\SecurityDAL\s_ScreenLockDAO.cs" />
+    <Compile Include="SECURITY\SecurityDAL\s_UserDAO.cs" />
+    <Compile Include="SECURITY\SecurityDAL\s_UserDepartmentDAO.cs" />
+    <Compile Include="SECURITY\SecurityEntity\ad_Domain.cs" />
+    <Compile Include="SECURITY\SecurityEntity\ad_LoginLogoutLog.cs" />
+    <Compile Include="SECURITY\SecurityEntity\ad_Notice.cs" />
+    <Compile Include="SECURITY\SecurityEntity\ad_NoticeDetail.cs" />
+    <Compile Include="SECURITY\SecurityEntity\ad_TransactionType.cs" />
+    <Compile Include="SECURITY\SecurityEntity\BaseEmployee.cs" />
+    <Compile Include="SECURITY\SecurityEntity\s_Module.cs" />
+    <Compile Include="SECURITY\SecurityEntity\s_Permission.cs" />
+    <Compile Include="SECURITY\SecurityEntity\s_PermissionDetail.cs" />
+    <Compile Include="SECURITY\SecurityEntity\s_Role.cs" />
+    <Compile Include="SECURITY\SecurityEntity\s_Screen.cs" />
+    <Compile Include="SECURITY\SecurityEntity\s_ScreenDetail.cs" />
+    <Compile Include="SECURITY\SecurityEntity\s_ScreenLock.cs" />
+    <Compile Include="SECURITY\SecurityEntity\s_User.cs" />
+    <Compile Include="SECURITY\SecurityEntity\s_UserDepartment.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

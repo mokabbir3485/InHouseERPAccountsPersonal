@@ -1,0 +1,148 @@
+﻿<form name="TrialBalanceReportForm" novalidate>
+    <div class="col-md-12">
+        <!--<div class="alert alert-info alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="topInfo"> &nbsp; &#9755; <span style="color:red;">Red Icon</span> Denotes Required Field &nbsp;&nbsp;&nbsp;&nbsp; &#9755; Click On A Table Row To Update</div>
+        </div>-->
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-shield"></i>&nbsp;{{name}}</h3>
+                <div class="clearfix">
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+
+                    </div>
+                    <div class="col-md-4">
+
+                        <p style="text-align:center;font-weight:bold;font-size:18px;">TRIAL BALANCE</p>
+
+                      
+                    </div>
+                    <div class="col-md-4">
+
+                    </div>
+                </div>
+                <br />
+
+                <div class="row">
+                    <div class="col-md-3">
+                   
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="txtEndDate" placeholder="End Date" ng-model="EndTrialBalanceDate" readonly />
+                            <span class="input-group-addon" ng-click="OnEndTrialBalanceDate()"><i class="fa fa-calendar req-icon-color"></i></span>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-3">
+                        <div class="input-group">
+
+                            <input type="text" class="form-control" ng-model="ToTrialBalanceDate" id="txtToDate" placeholder="To Date" readonly />
+                            <span class="input-group-addon" ng-click="OnToTrialBalanceDate()"><i class="fa fa-calendar req-icon-color"></i></span>
+                        </div>
+                    </div>-->
+                 
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button ng-click="TrialBalanceLoad()" ng-disabled="!EndTrialBalanceDate" type="button" class="btn btn-primary" style="width:100%;">
+                                    <i class="fa fa fa-spinner"> </i> Load
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <button ng-click="OnReport()" ng-disabled="!EndTrialBalanceDate" type="button" class="btn btn-primary" style="width:100%;">
+                                    <i class="fa fa-print"> </i> Report
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <button ng-click="TrialBalanceClear()" type="button" class="btn btn-danger" style="width:100%;">
+                                    <i class="fa fa-refresh"> </i> Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="responstable table-hover">
+                            <tr>
+                              
+                                <th class="t-cell-center">SL</th>
+                                <th class="t-cell-center">Account Title</th>
+                                <th  colspan="2">
+                                    
+                                    <p style="text-align:center;">Amount In Taka</p>
+                                <table  style="width: 100%; background-color: #3C8DBC;">
+                                    <tr style=" background-color: #3C8DBC;">
+                                        <td  style="width:50%;text-align:left;" >
+                                           Debit
+                                        </td>
+                                        <td style="text-align: left; width: 50%; ">
+                                            
+                                            <p style="">Credit</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                                </th>
+                                
+                               
+                            </tr>
+                            <tbody ng-repeat="aTrial in TrailBalanceFilterList track by $index">
+                               
+                                <tr>
+                                    <td></td>
+                                   <td style="text-align:left;font-weight:bold;font-size:16px;" colspan="4">
+                                       <p > {{aTrial.SubMainGroupName}}</p>   
+                                   </td>
+                                </tr>
+                                <tr ng-repeat="aHead in  aTrial.DataList">
+                                    <td class="t-cell-center">{{aHead.SN }}</td>
+                                    <td  style="text-align:left">{{aHead.Head}}</td>
+                                    <td style="text-align:right">
+                                        <!--{{aHead.DrAmount}}-->
+                                        <p ng-if="aHead.DrAmount==0">
+                                        </p>
+                                        <p ng-if="aHead.DrAmount!=0">
+                                            {{aHead.DrAmount}}
+                                        </p>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <!--{{aHead.CrAmount}}-->
+                                        <p ng-if="aHead.CrAmount==0">
+
+                                        </p>
+                                        <p ng-if="aHead.CrAmount!=0">
+                                            {{aHead.CrAmount}}
+                                        </p>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                            
+
+                        </table>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+</form>
+
+<script>
+    $("#accountHead").select2({
+        placeholder: "--Select Account Head --",
+        theme: "classic",
+        dropdownAutoWidth: false
+    });
+</script>

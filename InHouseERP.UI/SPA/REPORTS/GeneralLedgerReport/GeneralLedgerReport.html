@@ -1,0 +1,371 @@
+﻿
+<!--<div class="col-md-12">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-shield"></i>&nbsp;{{name}}</h3>
+            <div class="clearfix">
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-4">
+
+                    <p style="text-align:center;font-weight:bold;font-size:18px;">GENERAL LEDGER</p>
+
+                    <div class="row">
+                        <div class="col-md-6" style="text-align:left">
+                            <span><b>Form Date : </b> 5/29/2022</span>
+                        </div>
+                        <div class="col-md-6" style="text-align:right">
+                            <span> <b>To Date : </b> 5/28/2022 </span>
+                        </div>
+                    </div>
+                    <p>
+                        <span><span>Form Date </span> <span> To Date </span></span>
+                    </p>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+            </div>
+            <br />
+            <br />
+
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="responstable table-hover">
+                        <tr>
+                            <th class="t-cell-center">SL</th>
+                            <th class="t-cell-center">Date</th>
+                            <th class="t-cell-center">A/C Code</th>
+                            <th class="t-cell-center">Account Head</th>
+                            <th class="t-cell-center">Voucher No</th>
+                            <th class="t-cell-center">Dr. Ammount</th>
+                            <th class="t-cell-center">Cr. Ammount</th>
+                            <th class="t-cell-center">Particulars</th>
+                        </tr>
+
+
+                        <tr ng-repeat="aGL in GeneralLedgerList ">
+                            <td class="t-cell-center">{{$index+1}}</td>
+                            <td class="t-cell-center">{{aGL.VDate}}</td>
+                            <td class="t-cell-center">{{aGL.OpositCode}}</td>
+                            <td class="t-cell-center">{{aGL.OppositHead}}</td>
+                            <td class="t-cell-center">{{aGL.VoucherNo}}</td>
+                            <td class="t-cell-center">{{aGL.DrAmount}}</td>
+                            <td class="t-cell-center">{{aGL.CrAmount}}</td>
+                            <td class="t-cell-center">
+                                {{aGL.Particulars}}
+                            </td>
+
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>-->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Ledger Report</title>
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+            color: #000000;
+            writing-mode: inherit;
+            width: 100%;
+            height: 100%;
+        }
+
+        #UpperTable td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        .ProductTable th {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .ProductTable td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        .footer {
+            position: fixed;
+            left: 29px;
+            bottom: 0px;
+        }
+
+        .flexcontainer {
+            display: flex;
+            justify-content: space-between;
+        }
+
+
+        @page {
+            size: A4;
+            max-height: 100%;
+            max-width: 100%;
+            font-family: 'Times New Roman';
+        }
+
+        @media print {
+            @page {
+                size: landscape
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <table style="width: 100%">
+        <tbody>
+            <tr>
+                <td>
+                    <div class=" hidden-print">
+                        <div class="col-sm-7 col-md-9">
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 col-md-2">
+                                <!--<button type="button" onclick="ExportToDoc();" class="customBtn custmoBtnReset" style="border-radius: 3px; margin-bottom: -.9em; margin-top: -15px; padding-bottom: 3px; padding-top: 3px;" title="Export to .doc">
+                                    <i class="fa fa-save"></i>&nbsp;Export to .doc
+                                </button>-->
+                            </div>
+                            <div class="col-sm-2 col-md-1">
+                                <button type="button" onclick="PrintPdf();" class="customBtn custmoBtnReset" style="border-radius: 3px; margin-bottom: -.9em; margin-top: -15px; padding-bottom: 3px; padding-top: 3px;" title="Export to .doc">
+                                    <i class="fa fa-print"></i>&nbsp;Print
+                                </button>
+                            </div>
+
+
+                        </div>
+                        <hr />
+                    </div>
+
+                    <div class="" id="source-html">
+
+                        <div>
+                            <!--<img id="LogoImg" style="width:65px;height:65px;border-radius:100%;margin-right:15px;" src="/UploadedImages/logo.jpg" />-->
+
+
+
+                            <p style="font-size: 26px; text-align: center; margin: 0px; padding: 0px;"> <b>Retail Technologies Limited</b></p>
+                            <p style="font-size: 12px; text-align: center; margin-top: 10px; padding: 0px;margin-top:0px;">
+                                <b>
+                                   
+                                    <b>
+                                        Address :Flat: 22 A, Navana Tower, 45 Gulshan-1, Dhaka-1212
+                                    </b>
+                                </b>
+                            </p>
+
+                            <table style="width:100%">
+                                <tr>
+                                    <td style="width:30%"></td>
+                                    <td style="width:40%">
+                                        <p style="font-size: 20px; text-align: center; margin: 0px; padding: 0px;">
+                                            <b>
+                                                GENERAL LEDGER
+                                            </b>
+                                        </p>
+                                    </td>
+                                    <td style="width:30%"></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:30%"></td>
+                                    <td style="width: 40%;text-align:center ">
+                                       
+                                        <span><span> <b>Form Date : </b>  {{GLedger.generalFormDate}}</span> <span style="margin-left:20px;">  <b>To Date : </b> {{GLedger.generalToDate}}</span> </span>
+                                    </td>
+                                    <!--<td style="width: 25%; ">
+                                        <b>To Date : </b> {{GLedger.generalToDate}}
+                                    </td>-->
+                                    <td style="width:30%"></td>
+                                </tr>
+                                <tr>
+                                    <td  style="border: 1px solid black; padding: 4px;" colspan="1">
+                                        <span style="font-size:14px;font-weight:bold;">{{GLedger.Head}} ~ {{GLedger.Code}}</span> 
+                                    </td>
+                                    <td ></td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+                    
+                        <table class="ProductTable" style="width: 100%;  margin-left: auto; margin-right: auto;margin-top:20px">
+                            <tr>
+                                <th class="t-cell-center">SL</th>
+                                <th class="t-cell-center">Date</th>
+                                <th class="t-cell-center">A/C Code</th>
+                                <th class="t-cell-center">Account Head</th>
+                                <th class="t-cell-center">Voucher No</th>
+                                <th class="t-cell-center">Dr. Amount</th>
+                                <th class="t-cell-center">Cr. Amount</th>
+                                <th class="t-cell-center">Particulars</th>
+                            </tr>
+
+
+                            <tr ng-repeat="aGL in GeneralLedgerList ">
+                                <td class="t-cell-center">{{$index+1}}</td>
+                                <td class="t-cell-center">{{aGL.VDate}}</td>
+                                <td class="t-cell-center">{{aGL.OpositCode}}</td>
+                                <td class="t-cell-center">{{aGL.OppositHead}}</td>
+                                <td class="t-cell-center">
+                                    {{aGL.VoucherNo}}
+                                </td>
+                                <td class="t-cell-center">
+
+                                    <p ng-if="aGL.DrAmount==0">
+
+                                    </p>
+                                    <p ng-if="aGL.DrAmount!=0">
+                                        {{aGL.DrAmount}}
+                                    </p>
+                                </td>
+                                <td class="t-cell-center">
+                                    <p ng-if="aGL.CrAmount==0"></p>
+                                    <p ng-if="aGL.CrAmount!=0">{{aGL.CrAmount}}</p>
+                                </td>
+                                <td class="t-cell-center">
+                                    {{aGL.Particulars}}
+                                </td>
+
+                            </tr>
+
+                            <!--<tr>
+        <td colspan="5" style="text-align:right;">Total:</td>
+        <td class="t-cell-center"><b>{{TotalDrAmount}}</b></td>
+        <td class="t-cell-center"><b>{{TotalCrAmount}}</b></td>
+        <td></td>
+    </tr>-->
+
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+
+                                    <!--<td colspan="2"></td>-->
+                                    <td colspan="4" style="font-size:14px;text-align:right">
+                                        OPENING BALANCE
+                                    </td>
+                                    <!--<td style="text-align:right">
+
+            </td>-->
+
+                                    <td class="t-cell-center">
+                                        <!--{{GeneralLedgerList[0].DrAmount}} ---->
+                                        {{OpeningBalanceDebitTemp}}
+                                    </td>
+                                    <td class="t-cell-center">
+                                        {{OpeningBalanceCreditTemp}}
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="4" style="font-size: 14px; text-align: right">
+                                        CURRENT TOTAL
+                                    </td>
+                                    <!--<td style="text-align:right">
+
+            </td>-->
+
+                                    <td class="t-cell-center">
+                                        {{TotalTempDebitBlance}}
+                                    </td>
+                                    <td class="t-cell-center">{{TotalTempCreditBlance}}</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+
+
+                                    <td colspan="4" style="font-size: 14px; text-align: right">
+                                        CLOSING BALANCE
+                                    </td>
+                                    <!--<td style="text-align:right">
+
+            </td>-->
+
+                                    <td class="t-cell-center">
+                                        {{TotalDebitClosingBlance}}
+                                    </td>
+                                    <td class="t-cell-center">
+                                        {{TotalCreditClosingBlance}}
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+
+                        </table>
+
+                        <!--<p style="text-align:right;margin-top:5px;">E & OE</p>
+                        <table style="width:100%">
+                            <tr>
+                                <td style="width:80%">Recived in Good Condition</td>
+                                <td style="width:20%;text-align:right"><b>For</b> Retail Technologies Limited</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:80%">
+                                    <p style="border:1px solid black;width:70%;font-size:12px;"></p>
+                                </td>
+                                <td style="width:20%;text-align:right;">
+                                    <p>Authority Signature</p>
+                                </td>
+                            </tr>
+                        </table>-->
+
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
+<script>
+
+
+
+    jQuery(document).ready(function ($) {
+
+        $(".main-sidebar").attr("hidden", true);
+        $(".main-header").attr("hidden", true);
+        $(".main-footer").attr("hidden", true);
+        $("#br").attr("hidden", true);
+
+        $("div").removeClass("wrapper");
+        $("div").removeClass("content-wrapper");
+    });
+
+
+    function PrintPdf() {
+        window.print();
+    }
+
+</script>
+
+

@@ -1,0 +1,280 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RTL</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/vendors")
+    @Scripts.Render("~/bundles/spa")
+
+    <script src="~/Scripts/marked.js"></script>
+    <script src="~/Scripts/lodash.js"></script>
+    <script src="~/Scripts/screenfull.js"></script>
+    <script src="~/Scripts/angular-screenfull.js"></script>
+
+    <script src="../../../Scripts/angularjs-dropdown-multiselect.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
+    <script src="/signalR/hubs"></script>
+</head>
+<body ng-app="AngularDemoApp" class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <div ng-controller="IndexController">
+            <header class="main-header">
+                <a href="#" class="logo" style="position: fixed;">
+                    <span class="logo-mini"><img width="50" height="50" src="~/UploadedImages/logoBackLess.png" /></span>
+                    @*<span class="logo-mini"><b>RT</b></span>*@
+                    @*<span class="logo-lg"><b>RETAIL</b> TECHNOLOGIES LTD.</span>*@
+                
+                <span class="logo-lg">
+                    <img width="50" height="50" src="~/UploadedImages/logoBackLess.png" /><b>RETAIL</b> TECHNOLOGIES LTD.
+                </span>
+                </a>                
+                <nav class="navbar navbar-fixed-top">
+                    <a href="" id="togle" class="sidebar-toggle" data-toggle="offcanvas" role="button" onclick="return change(this);">
+                        <span id="arrow" class="leftArrow"></span>
+                        <span class="fa-arrow-left"></span>
+                    </a>
+                    <button class="btn btn-danger" style="margin-top: 10px;" ng-click="ReloadPage();"><i class="fa fa-retweet" aria-hidden="true"></i>&nbsp;Refresh Page</button>
+                    @*<span id="hour" style="margin-top: 10px; border-radius: 5px; padding: 1px; color: green; background-color: white; font-weight: bold;"><b>00</b></span><b> :</b> 
+                    <span id="min" style="margin-top: 10px; border-radius: 5px; padding: 1px; color: green; background-color: white; font-weight: bold;"><b>00</b></span><b> :</b>
+                    <span id="sec" style="margin-top: 10px; border-radius: 5px; padding: 1px; color: green; background-color: white; font-weight: bold;"><b>00</b></span><b> :</b>
+                    <span id="milisec" style="margin-top: 10px; border-radius: 5px; padding: 1px; color: green; background-color: white; font-weight: bold;"><b>00</b></span>*@
+                    
+                    <div class="navbar-custom-menu">
+                        @*<input type="button" id="btnClick" ng-click="ReloadPage();" value="button">*@
+                        <ul class="nav navbar-nav">
+                            @*<li id="hour" style="border-radius: 5px; padding: 1px; margin-top: 15px; color: green; background-color: white;font-weight: bold; margin-right:5px;">00</li>
+                            <li style="border-radius: 5px; padding: 1px; margin-top: 15px;font-weight: bold; color: white;  margin-right:5px;">:</li>
+                            <li id="min" style="border-radius: 5px; padding: 1px; margin-top: 15px; color: green; background-color: white;font-weight: bold; margin-right:5px;">00</li>
+                            <li style="border-radius: 5px; padding: 1px; margin-top: 15px;font-weight: bold; color: white;  margin-right:5px;">:</li>
+                            <li id="sec" style="border-radius: 5px; padding: 1px; margin-top: 15px; color: green; background-color: white;font-weight: bold; margin-right:5px;">00</li>
+                            <li style="border-radius: 5px; padding: 1px; margin-top: 15px;font-weight: bold; color: green; background-color: white; margin-right:5px; display:none; ">:</li>
+                            <li id="milisec" style="border-radius: 5px; padding: 1px; margin-top: 15px; color: green; background-color: white;font-weight: bold; margin-right:5px; display:none; ">00</li>*@
+
+                            <li ng-show="online" style="border-radius: 5px; padding: 1px; margin-top: 15px; color: green; background-color: white">Online&nbsp;<i class="fa fa-wifi" aria-hidden="true"></i>&nbsp;</li>
+                            <li ng-hide="online" style="border-radius: 5px; padding: 1px; margin-top: 15px; color: red; background-color: white; ">Offline&nbsp;<i class="fa fa-spinner" aria-hidden="true">&nbsp;</i></li>
+                            <li class="dropdown messages-menu">
+                                <a href="" class="dropdown-toggle" data-toggle="modal" data-target="#NotificationMessageModal">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="label label-success">{{UnreadMessageNo}}</span>
+                                </a>
+
+                            </li>
+                            <li class="dropdown user user-menu">
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="/UploadedFiles/profile.png" class="user-image" alt="User Image">
+                                    <span class="hidden-xs">{{UserName}}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="user-header">
+                                        <img src="/UploadedFiles/profile.png" class="img-circle" alt="User Image">
+                                        <p>
+                                            {{UserName}} - {{RoleName}}
+                                        </p>
+                                    </li>
+                                    <li class="user-footer">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <button class="btnLogOut btn-default"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;Profile</button>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <button class="btnLogOut btn-default" ng-click="RemoveScreenLock()"><i class="fa fa-unlock" aria-hidden="true"></i>&nbsp;Unlock</button>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <button class="btnLogOut btn-default" ng-click="SignOut()"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Log out</button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <div class="modal fade" id="NotificationMessageModal" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 style="text-align:center !important;" class="modal-title"><strong><i class="fa fa-newspaper-o"></i>  &nbsp;&nbsp;Notice Board &nbsp;&nbsp;<i class="fa fa-newspaper-o"></i> </strong></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row" ng-repeat="aNotice in NoticeList">
+                                <div class="col-md-1">
+                                    <img width="100%;" src="~/UploadedFiles/notice.png" />
+                                </div>
+                                <div class="col-md-11">
+                                    <div class="col-md-6 pull-left">
+                                       <u><strong>{{aNotice.SenderName}}</strong></u>
+                                    </div>
+                                    <div style="text-align:right !important;" class="col-md-6 pull-right">
+                                        <i class="fa fa-clock-o"></i>  &nbsp;&nbsp;{{aNotice.CreateDate}},&nbsp;&nbsp;{{aNotice.Time}}
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p style="text-align: justify;">{{aNotice.NoticeContent}}</p>
+                                        <hr />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-md-4  pull-left">
+                                    <button type="button" class="customBtn custmoBtnReset" data-dismiss="modal"><i class="fa fa-crosshairs"></i>&nbsp;Close </button>
+                                </div>
+                                <div class="col-md-4 pull-right">
+                                    <button type="button" class="customBtn custmoBtnReset" data-dismiss="modal"><i class="fa fa-crosshairs"></i>&nbsp;Close & Mark as Read</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <aside class="main-sidebar sideScroll" style="position: fixed; transition: width 0.3s ease;">
+                <section class="sidebar">
+                    <ul class="sidebar-menu">
+                        <li><a href="#/Home"><i class="fa fa-home"></i><span>Home</span></a></li>
+                        <li class="treeview" ng-class="SecurityView">
+                            <a href="">
+                                <i class="fa fa-unlock-alt"></i><span>Security</span> <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li ng-class="ModuleView"><a href="#/ModuleEntry"><i class="fa fa-circle-o"></i>Module</a></li>
+                                <li ng-class="RoleView"><a href="#/RoleEntry"><i class="fa fa-circle-o"></i>User Group</a></li>
+                                <li ng-class="ScreenView"><a href="#/ScreenEntry"><i class="fa fa-circle-o"></i>Screen</a></li>
+                                <li ng-class="PermisionView"><a href="#/PermissionEntry"><i class="fa fa-circle-o"></i>Permission</a></li>
+                                <li ng-class="ChangePasswordView"><a href="#/ChangePassword"><i class="fa fa-circle-o"></i>Change Password</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview" ng-class="">
+                            <a href="">
+                                <i class="fa fa-adn"></i><span>Admin</span> <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                
+                                <li ng-class="SubMainGroupEntryView"><a href="#/SubMainGroupEntry"><i class="fa fa-circle-o"></i>Sub Main Group Entry</a></li>
+                                <li ng-class="SubGroupHeadEntryView"><a href="#/SubGroupHeadEntry"><i class="fa fa-circle-o"></i>Sub Group Head Entry</a></li>
+                            </ul>
+                        </li>
+                        
+
+                        
+                        
+                        
+                        <li ng-class="AccountsView">
+                            <a href=""><i class="fa fa-money"></i><span>Accounts</span> <i class="fa fa-angle-left pull-right"></i></a>
+                            <ul class="treeview-menu">
+
+                               
+                                <li ng-class="ChartOfAccountsView"><a href="#/ChartOfAccounts"><i class="fa fa-circle-o"></i>Chart of Accounts </a></li>
+                                <li ng-class="ReceiptVoucherView"><a href="#/ReceiptVoucher"><i class="fa fa-circle-o"></i>Receipt Voucher</a></li>
+                                <li ng-class="PaymentVoucherView"><a href="#/PaymentVoucher"><i class="fa fa-circle-o"></i>Payment Vouchers</a></li>
+                                <li ng-class="JournalVoucherView"><a href="#/JournalVoucher"><i class="fa fa-circle-o"></i>Journal Voucher</a></li>
+                                @*<li ng-class="TransferVoucherView"><a href="#/TransferVoucher"><i class="fa fa-circle-o"></i>Transfer Voucher</a></li>*@
+                                @*<li ng-class="ReportsView"><a href="#/Reports"><i class="fa fa-circle-o"></i>Reports</a></li>*@
+
+                            </ul>
+                        </li>
+                        <li class="treeview" ng-class="ReportsView">
+                            <a href="">
+                                <i class="fa fa-file-text"></i><span>Reports</span> <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li ng-class="ProfitLossView"><a href="#/ProfitLoss"><i class="fa fa-circle-o"></i>Profit And Loss </a></li>
+                                <li ng-class="ChartOfAccountsReportView"><a href="#/ChartOfAccountsReport"><i class="fa fa-circle-o"></i>Chart Of Accounts</a></li>
+
+                                <li ng-class="GeneralLedgerView"><a href="#/GeneralLedger"><i class="fa fa-circle-o"></i>General Ledger</a></li>
+
+                                <li ng-class="TrialBalanceView"><a href="#/TrialBalanceReportUI"><i class="fa fa-circle-o"></i>Trial Balance</a></li>
+                                <li ng-class="PrintVoucherView"><a href="#/PrintVoucherReport"><i class="fa fa-circle-o"></i>Print Voucher</a></li>
+
+                            </ul>
+
+                            
+                        </li>
+                        
+                    </ul>
+                </section>
+            </aside>
+        </div>
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="row">
+                    <div id="Hidebr">
+                        <br /><br /><br />
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <div class="ng-view" autoscroll="true"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 3.4.4
+            </div>
+            <strong>Copyright 2020 © <a href="http://rtbd.com">RTBD</a>.</strong> All rights
+            reserved.
+        </footer>
+    </div>
+
+   
+    <script>
+
+        $('ul.nav li.dropdown').hover(function() {
+        $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(500);
+        }, function() {
+        $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.sidebar-toggle').click(function () {
+                if ($(".main-sidebar").hasClass('sideScroll')) {
+                    $('.main-sidebar').removeClass('sideScroll');
+
+                } else {
+                    $(".main-sidebar").addClass('sideScroll');
+                }
+            });
+            $(".treeview-menu li").click(function () {
+                $(".treeview-menu li").removeClass("active");
+                $(this).addClass("active");
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#togle").click(function () {
+                if ($('#arrow').hasClass('leftArrow')) {
+                    $('#arrow').removeClass('leftArrow');
+                    $('#arrow').addClass('rightArrow');
+                    $('.treeview-menu').addClass('siteScroll');
+                }
+                else {
+                    $('#arrow').removeClass('rightArrow');
+                    $('#arrow').addClass('leftArrow');
+                    $('.treeview-menu').removeClass('siteScroll');
+                }
+            });           
+        });
+    </script>
+    <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 10);
+        window.onunload = function () { null };
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('window').on('touchmove', function (event) {
+                event.preventDefault();
+            });
+        })
+    </script>
+</body>
+</html>

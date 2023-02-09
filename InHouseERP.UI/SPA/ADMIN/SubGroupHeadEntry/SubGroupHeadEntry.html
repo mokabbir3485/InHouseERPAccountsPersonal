@@ -1,0 +1,182 @@
+﻿<form name="SubGroupHeadEntryForm" novalidate>
+    <div class="col-md-12">
+        <div class="alert alert-info alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="topInfo"> &nbsp;  &#9755;&nbsp; <span style="color:red;">Red Icon</span> Denotes Required Field &nbsp;&nbsp;&nbsp;&nbsp; &#9755; Click On A Table Row To Update/Delete</div>
+        </div>
+    </div>
+    <!--<div class="col-md-4" ng-show="CreatePermission||RevisePermission">-->
+    <div class="col-md-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-share-alt"></i>&nbsp;Sub Group Head Entry</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : SubGroupHeadEntryForm.MainGroup.$dirty && SubGroupHeadEntryForm.MainGroup.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Select Main Group">
+                            <div class="input-group input-group-md ddl">
+                                <select id="ddlMainGroup" ng-model="ddlMainGroup" class="form-control selectMendatory" name="MainGroup" ng-options="MainGroup.Name for MainGroup in MainGrouplist track by MainGroup.MainGroupID" autofocus required ng-change=" ad_SubGroupHead.MainGroupID=ddlMainGroup.MainGroupID; GetAllSubMainGroup();">
+                                    <option value="" label="Select Main Group"></option>
+                                </select>
+                            </div>
+                            <span class="help-block" ng-show="SubGroupHeadEntryForm.MainGroup.$dirty && SubGroupHeadEntryForm.MainGroup.$invalid">Main Group is required</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : SubGroupHeadEntryForm.SubMainGroup.$dirty && SubGroupHeadEntryForm.SubMainGroup.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Select Sub Main Group">
+                            <div class="input-group input-group-md ddl">
+                                <select id="ddlSubMainGroup" ng-model="ddlSubMainGroup" class="form-control selectMendatory" name="SubMainGroup" ng-options="SubMainGroup.Name for SubMainGroup in SubMainGrouplist track by SubMainGroup.SubMainGroupID" autofocus required ng-change="OnChangeSubMainGroupId(ddlSubMainGroup);ad_SubGroupHead.SubMainGroupID=ddlSubMainGroup.SubMainGroupID;">
+                                    <option value="" label="Select Sub Main Group"></option>
+                                </select>
+                            </div>
+                            <span class="help-block" ng-show="SubGroupHeadEntryForm.SubMainGroup.$dirty && SubGroupHeadEntryForm.SubMainGroup.$invalid">Sub Main Group is required</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : SubGroupHeadEntryForm.SubGroupHeadName.$invalid && SubGroupHeadEntryForm.SubGroupHeadName.$touched }" data-toggle="tooltip" data-placement="bottom" title="Sub Group Head Name">
+                            <div class="input-group">
+                                <input type="text" id="txtSubGroupHeadName" name="SubGroupHeadName" class="form-control " ng-model="ad_SubGroupHead.Name" placeholder="Sub Group Head Name" maxlength="51" ng-maxlength="50" required>
+                                <span class="input-group-addon"><i class="fa fa-text-width" style="color:red"></i></span>
+                            </div>
+                            <span class="help-block" ng-if="SubGroupHeadEntryForm.SubGroupHeadName.$error.required && SubGroupHeadEntryForm.SubGroupHeadName.$touched">Sub Main Group Name is required</span>
+                            <span class="help-block" ng-if="SubGroupHeadEntryForm.SubGroupHeadName.$error.maxlength">50 Character Max</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : SubGroupHeadEntryForm.SubGroupHeadCode.$invalid && SubGroupHeadEntryForm.SubGroupHeadCode.$touched }" data-toggle="tooltip" data-placement="bottom" title="Sub Group Head Code">
+                            <div class="input-group">
+                                <input type="text" id="txtSubGroupHeadCode" name="SubGroupHeadCode" class="form-control" ng-disabled="ad_SubGroupHead.IsUpdate" ng-model="ad_SubGroupHead.SubGroupHeadCode" placeholder="Sub Group Head Code" maxlength="16" ng-maxlength="15" required readonly>
+                                <span class="input-group-addon"><i class="fa fa-text-width" style="color:red"></i></span>
+                            </div>
+                            <span class="help-block" ng-if="SubGroupHeadEntryForm.SubGroupHeadCode.$error.required && SubGroupHeadEntryForm.SubGroupHeadCode.$touched">Sub Group Head Code is required</span>
+                            <span class="help-block" ng-if="SubGroupHeadEntryForm.SubGroupHeadCode.$error.maxlength">15 Character Max</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group" ng-class="{ 'has-error' : SubGroupHeadEntryForm.Description.$invalid && SubGroupHeadEntryForm.Description.$touched }" data-toggle="tooltip" data-placement="bottom" title="Description">
+                            <div class="input-group">
+                                <textarea type="text" id="txtDescription" name="Description" class="form-control" ng-model="ad_SubGroupHead.Description" placeholder="Description" rows="1" maxlength="500" ng-maxlength="500"></textarea>
+                                <span class="input-group-addon"><i class="fa fa-text-width"></i></span>
+                            </div>
+                            <span class="help-block" ng-if="SubGroupHeadEntryForm.Description.$error.maxlength">15 Character Max</span>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                
+                
+                <br />
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4 col-lg-4 col-xs-12" style="padding-left: 5%; padding-right: 7%;">
+                            <div class="row">
+                                <button class="customBtn custmoBtnSave" ng-click="SaveSubGroupHead()" ng-disabled="SubGroupHeadEntryForm.$invalid ">
+                                    <i class="fa fa-floppy-o"></i>&nbsp;{{btnSave}}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-lg-4 col-xs-12" style="padding-left: 7%; padding-right: 5%;">
+                            <div class="row">
+                                <button id="btnReset" class="customBtn custmoBtnReset" ng-click="resetForm()" title="Reset">
+                                    <i class="fa fa-refresh"></i>&nbsp;Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="col-md-8" ng-show="ListViewPermission">-->
+    <div class="col-md-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-list"></i>&nbsp;Sub Group Head List</h3>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-change="GetCropTypeSearch()" ng-model="SearchCropTypeName" placeholder="Search by Name/Code" />
+                            <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-4">
+                        <div class="input-group input-group-md ddl">
+                            <select ng-model="ddlSearchCrop" ng-change="GetCropTypeSearch()" ng-options="category.CategoryName for category in Categorylist track by category.CategoryId" class="form-control selectNotMandetory">
+                                <option value="" label="Select Main Group"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group input-group-md ddl">
+                            <select ng-model="ddlSearchCrop" ng-change="GetCropTypeSearch()" ng-options="category.CategoryName for category in Categorylist track by category.CategoryId" class="form-control selectNotMandetory">
+                                <option value="" label="Select Sub Main Group"></option>
+                            </select>
+                        </div>
+                    </div>-->
+                    <!--<div class="col-md-3">
+                        <div class="input-group input-group-md ddl">
+                            <select ng-model="ddlSearchStatus" ng-change="GetCropTypeSearch()" class="form-control selectNotMandetory">
+                                <option value="" label="Select Status"></option>
+                                <option value="1" label="Active"></option>
+                                <option value="0" label="Inactive"></option>
+                            </select>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+            <div class="panel-body custom-panal-body">
+                <div class="tbl-outer">
+                    <table class="responstable table-hover">
+                        <tbody>
+                            <tr>
+                                <th>S/N</th>
+                                <th class="txt-center">Main Group</th>
+                                <th class="txt-center">Sub Main Group</th>
+                                <th class="txt-center">Sub Group Head</th>
+                                <th class="txt-center">Action</th>
+                            </tr>
+                            <tr class="HoverTable" dir-paginate="aSubGroupHead in SubGroupHeadList | filter:q | itemsPerPage: PerPage" current-page="currentPage" total-items="total_count">
+                                <td>{{$index + ((currentPage-1)*PerPage) + 1}}</td>
+                                <td style="padding-left:15px">{{aSubGroupHead.MainGroupID }} - {{aSubGroupHead.MaingGroupName }}</td>
+                                <td  style="padding-left:15px">{{aSubGroupHead.SubMainGroupID }} - {{aSubGroupHead.SubMainGroupName}}</td>
+                                <td style="padding-left:15px">{{aSubGroupHead.SubGroupHeadID}} - {{aSubGroupHead.Name }}</td>
+
+                                <td class="txt-center">
+                                    <button class="btn btn-primary" ng-click="SelSubGroupHead(aSubGroupHead)">
+                                        <i class="fa fa-edit"></i> Edit
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="t-foot" ng-show="total_count>PerPage">
+                                <th colspan="8">
+                                    <dir-pagination-controls max-size="8"
+                                                             direction-links="true"
+                                                             boundary-links="true"
+                                                             on-page-change="getData(newPageNumber)" style="text-align:center;">
+                                    </dir-pagination-controls>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row pagination-footer">
+                        <div class="col-md-6">
+                            <span>Show </span><input class="input-pagesize" type="number" ng-maxlength="100" ng-minlength="1" width="1" ng-model="PerPage"> <span>Records </span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="pull-right">Showing {{((currentPage-1)*PerPage)+1}} to {{((currentPage-1)*PerPage)+SubGroupHeadList.length}} of {{total_count}} Records</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

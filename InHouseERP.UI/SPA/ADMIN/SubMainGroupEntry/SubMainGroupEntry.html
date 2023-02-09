@@ -1,0 +1,145 @@
+﻿<form name="SubMainGroupEntryForm" novalidate>
+    <div class="col-md-12">
+        <div class="alert alert-info alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="topInfo"> &nbsp;  &#9755;&nbsp; <span style="color:red;">Red Icon</span> Denotes Required Field &nbsp;&nbsp;&nbsp;&nbsp; &#9755; Click On A Table Row To Update/Delete</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-share-alt"></i>&nbsp;Sub Main Group Entry</h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group" ng-class="{ 'has-error' : SubMainGroupEntryForm.MainGroup.$dirty && SubMainGroupEntryForm.MainGroup.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Select Main Group">
+                    <div class="input-group input-group-md ddl">
+                        <select id="ddlMainGroup" ng-model="ddlMainGroup" class="form-control selectMendatory" name="MainGroup" ng-options="MainGroup.Name for MainGroup in MainGrouplist track by MainGroup.MainGroupID" autofocus required ng-change="OnChangeSubMainGroupId(ddlMainGroup); ad_SubMainGroup.MainGroupID=ddlMainGroup.MainGroupID;">
+                            <option value="" label="Select Main Group"></option>
+                        </select>
+                    </div>
+                    <span class="help-block" ng-show="SubMainGroupEntryForm.MainGroup.$dirty && SubMainGroupEntryForm.MainGroup.$invalid">Main Group is required</span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : SubMainGroupEntryForm.SubMainGroupName.$invalid && SubMainGroupEntryForm.SubMainGroupName.$touched }" data-toggle="tooltip" data-placement="bottom" title="Sub Main Group Name">
+                    <div class="input-group">
+                        <input type="text" id="txtSubMainGroupName" name="SubMainGroupName" class="form-control " ng-model="ad_SubMainGroup.Name" placeholder="Sub Main Group Name" maxlength="51" ng-maxlength="50" required>
+                        <span class="input-group-addon"><i class="fa fa-text-width" style="color:red"></i></span>
+                    </div>
+                    <span class="help-block" ng-if="SubMainGroupEntryForm.SubMainGroupName.$error.required && SubMainGroupEntryForm.SubMainGroupName.$touched">Sub Main Group Name is required</span>
+                    <span class="help-block" ng-if="SubMainGroupEntryForm.SubMainGroupName.$error.maxlength">50 Character Max</span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : SubMainGroupEntryForm.SubMainGroupCode.$invalid && SubMainGroupEntryForm.SubMainGroupCode.$touched }" data-toggle="tooltip" data-placement="bottom" title="Sub Main Group Code">
+                    <div class="input-group">
+                        <input type="text" id="txtSubMainGroupCode" name="SubMainGroupCode" class="form-control" ng-disabled="ad_SubMainGroup.IsUpdate" ng-model="ad_SubMainGroup.SubMainGroupID" placeholder="Sub Main Group Code" maxlength="16" ng-maxlength="15" required readonly>
+                        <span class="input-group-addon"><i class="fa fa-text-width" style="color:red"></i></span>
+                    </div>
+                    <span class="help-block" ng-if="SubMainGroupEntryForm.SubMainGroupCode.$error.required && SubMainGroupEntryForm.SubMainGroupCode.$touched">Sub Main Group Code is required</span>
+                    <span class="help-block" ng-if="SubMainGroupEntryForm.SubMainGroupCode.$error.maxlength">15 Character Max</span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : SubMainGroupEntryForm.Description.$invalid && SubMainGroupEntryForm.Description.$touched }" data-toggle="tooltip" data-placement="bottom" title="Description">
+                    <div class="input-group">
+                        <textarea type="text" id="txtDescription" name="Description" class="form-control" ng-model="ad_SubMainGroup.Description" placeholder="Description" rows="1"  maxlength="500" ng-maxlength="500"></textarea>
+                        <span class="input-group-addon"><i class="fa fa-text-width"></i></span>
+                    </div>
+                    <span class="help-block" ng-if="SubMainGroupEntryForm.Description.$error.maxlength">15 Character Max</span>
+                </div>
+                <!--<div class="input-group">
+                    <label>Status: </label>
+                    &nbsp;&nbsp;
+                    <div class="radio-inline">
+                        <input type="radio" name="optionsRadios" ng-value="true" ng-model="ad_SubMainGroup.IsActive"> Active
+                    </div>
+                    <div class="radio-inline">
+                        <input type="radio" name="optionsRadios" ng-value="false" ng-model="ad_SubMainGroup.IsActive"> Inactive
+                    </div>
+                </div>-->
+                <br />
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4 col-lg-4 col-xs-12" style="padding-left: 5%; padding-right: 7%;">
+                            <div class="row">
+                                <button class="customBtn custmoBtnSave" ng-click="AddSubMainGroup()" ng-disabled="SubMainGroupEntryForm.$invalid">
+                                    <i class="fa fa-floppy-o"></i>&nbsp;{{btnSave}}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-lg-4 col-xs-12" style="padding-left: 6%; padding-right: 6%;">
+                            <div class="row">
+                                <button id="btnDelete" class="customBtn custmoBtnDelete" ng-click="Delete()" ng-show="btnDeleteShow" title="Search">
+                                    <i class="fa fa-trash"></i>&nbsp;Delete
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-lg-4 col-xs-12" style="padding-left: 7%; padding-right: 5%;">
+                            <div class="row">
+                                <button id="btnReset" class="customBtn custmoBtnReset" ng-click="resetForm()" title="Reset">
+                                    <i class="fa fa-refresh"></i>&nbsp;Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-list"></i>&nbsp;Sub Main Group List</h3>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-change="GetCropTypeSearch()" ng-model="SearchCropTypeName" placeholder="Search by Name / Code" />
+                            <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body custom-panal-body">
+                <div class="tbl-outer">
+                    <table class="responstable table-hover">
+                        <tbody>
+                            <tr>
+                                <th>S/N</th>
+                                <th class="txt-center">Main Group</th>
+                                <th class="txt-center">Sub Main Group</th>
+                                <th class="txt-center">Action</th>
+                            </tr>
+                            <tr class="HoverTable" dir-paginate="aSubMainGroup in SubMainGroupList | filter:q | itemsPerPage: PerPage" current-page="currentPage" total-items="total_count" ng-click="SelSubMainGroup(aSubMainGroup)">
+                                <td>{{$index + ((currentPage-1)*PerPage) + 1}}</td>
+                                <td style="padding-left:15px">{{aSubMainGroup.MainGroupID }} - {{aSubMainGroup.MainGroupName }}</td>
+                                <td style="padding-left:15px">{{aSubMainGroup.SubMainGroupID }} - {{aSubMainGroup.Name }}</td>
+                                <td class="txt-center">
+                                    <button class="btn btn-primary" ng-click="SelSubMainGroup(aSubMainGroup)">
+                                        <i class="fa fa-edit"></i> Edit
+                                    </button>
+                                </td>
+                                
+                            </tr>
+                            <tr class="t-foot" ng-show="total_count>PerPage">
+                                <th colspan="5">
+                                    <dir-pagination-controls max-size="8"
+                                                             direction-links="true"
+                                                             boundary-links="true"
+                                                             on-page-change="getData(newPageNumber)" style="text-align:center;">
+                                    </dir-pagination-controls>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row pagination-footer">
+                        <div class="col-md-6">
+                            <span>Show </span><input class="input-pagesize" type="number" ng-maxlength="100" ng-minlength="1" width="1" ng-model="PerPage"> <span>Records </span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="pull-right">Showing {{((currentPage-1)*PerPage)+1}} to {{((currentPage-1)*PerPage)+SubMainGroupList.length}} of {{total_count}} Records</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

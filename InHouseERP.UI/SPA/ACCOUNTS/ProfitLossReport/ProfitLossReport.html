@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <style type="text/css">
+
+        body {
+            font-family: "Times New Roman", Times, serif;
+            color: #000000;
+            height: auto;
+            font-size: 15px;
+        }
+
+        /*#MainTable td {
+            text-align: center;
+        }*/
+
+        @page {
+            size: A4 portrait;
+        }
+        @media print {
+            #source-html {
+                page-break-after: avoid;
+                page-break-before: avoid;
+            }
+        }
+        .flexcontainer {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #UpperTable td {
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        #container {
+            width: 100%;
+            bottom: 0;
+            position: fixed !important;
+        }
+
+        #left {
+            float: left;
+            width: 100px;
+        }
+
+        #right {
+            float: right;
+            width: 100px;
+        }
+
+        #center {
+            margin: 0 auto;
+            width: 100px;
+        }
+    </style>
+
+</head>
+<body>
+    <!--<page>-->
+    <table class="table" style="margin: auto !important;">
+        <tbody>
+            <tr>
+                <td>
+                    <div class="container hidden-print">
+                        <div class="col-sm-7 col-md-9">
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 col-md-2">
+                                <!--<button type="button" onclick="ExportToDoc();" class="customBtn custmoBtnReset" style="border-radius: 3px; margin-bottom: -.9em; margin-top: -15px; padding-bottom: 3px; padding-top: 3px;" title="Export to .doc">
+                                    <i class="fa fa-save"></i>&nbsp;Export to .doc
+                                </button>-->
+                            </div>
+                            <div class="col-sm-2 col-md-1">
+                                <button type="button" onclick="PrintPdf();" class="customBtn custmoBtnReset" style="border-radius: 3px; margin-bottom: -.9em; margin-top: -15px; padding-bottom: 3px; padding-top: 3px;" title="Print To .PDF">
+                                    <i class="fa fa-print"></i>&nbsp;Print
+                                </button>
+                            </div>
+
+
+                        </div>
+                        <br />
+                    </div>
+                    <div id="source-html">
+                        <table id="heading" style="text-align: center;margin-left:auto;margin-right:auto;">
+
+                            <tr>
+                                <td>
+                                    <span style="font-size: 18px; line-height: 1; margin: 0; padding: 0;"><i><u><b>Profit Loss Report</b></u></i></span>
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                        <b>
+                            Date: {{FromDate}}  to {{ToDate}}
+                        </b>
+
+                        <div ng-repeat="aMainGroup in MainGroupList track by $index">
+
+
+                            <div class="flexcontainer" style="border:1px solid">
+                                <div style="width:450px;"><span><b>Name</b></span></div>
+                                <div><span style="text-align:left"><b>Debit</b></span></div>
+                                <div><span><b>Credit</b> &emsp;</span></div>
+                            </div>
+
+                            <div class="flexcontainer" style="border:1px solid">
+                                <div style="width:450px;"><span>{{aMainGroup.MainGroup}}</span></div>
+                                <div><span style="text-align:left">{{aMainGroup.Debit}}</span></div>
+                                <div><span>{{aMainGroup.Credit}} &emsp;</span></div>
+                            </div>
+
+                            <div ng-repeat="aSubMainGroup in aMainGroup.SubMainGroup track by $index">
+                                <div class="flexcontainer" style="border:1px solid">
+                                    <div style="width:450px;"><span>&emsp;{{aSubMainGroup.SubMainGroup}}</span></div>
+                                    <div><span style="text-align:left">{{aSubMainGroup.Debit}}</span></div>
+                                    <div><span>{{aSubMainGroup.Credit}} &emsp;</span></div>
+                                </div>
+
+                                <div ng-repeat="aSubGroupHead in aSubMainGroup.SubGroupHead track by $index">
+                                    <div class="flexcontainer" style="border:1px solid">
+                                        <div style="width:450px;"><span>&emsp;&emsp;{{aSubGroupHead.SubGroupHead}}</span></div>
+                                        <div><span style="text-align:left">{{aSubGroupHead.Debit}}</span></div>
+                                        <div><span>{{aSubGroupHead.Credit}} &emsp;</span></div>
+                                    </div>
+
+                                    <div ng-repeat="aHead in aSubGroupHead.HeadList track by $index">
+                                        <div class="flexcontainer" style="border:1px solid">
+                                            <div style="width:450px;"><span>&emsp;&emsp;&emsp;{{aHead.Head}}</span></div>
+                                            <div><span style="text-align:left">{{aHead.Debit}}</span></div>
+                                            <div><span>{{aHead.Credit}} &emsp;</span></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+        </tbody>
+
+
+
+
+    </table>
+
+
+
+    <script type="text/javascript">
+
+        function PrintPdf() {
+
+            window.print();
+
+        }
+        jQuery(document).ready(function ($) {
+
+            $(".main-sidebar").attr("hidden", true);
+            $(".main-header").attr("hidden", true);
+            $(".main-footer").attr("hidden", true);
+            $("#Hidebr").attr("hidden", true);
+
+            $("div").removeClass("wrapper");
+            $("div").removeClass("content-wrapper");
+        });
+
+
+    </script>
+</body>
+
+</html>

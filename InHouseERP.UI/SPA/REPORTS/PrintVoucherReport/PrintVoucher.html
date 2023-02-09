@@ -1,0 +1,119 @@
+﻿<div class="row">
+
+    <div class="col-md-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title pull-left "><i class="fa fa-check"></i>&nbsp; Voucher List</h3>
+                <div class="clearfix">
+                </div>
+            </div>
+
+            <div class="panel-footer">
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div class="input-group " data-toggle="tooltip" title="From Date">
+
+                                <input type="text" name="FromDate" id="txtFromJV" ng-model="FromDate" ng-change="JVGetPagedSearch();" class="form-control " placeholder="From Date" readonly />
+                                <span class="input-group-addon" ng-click="FormDateChangeForJournalVoucher()" id="idFormDateChangeForJournalVoucher"><i class="fa fa-calendar req-icon-color"></i></span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div class="input-group " data-toggle="tooltip" title="To Date">
+                                <input type="text" name="ToDate" id="txtToDateForJV" ng-model="ToDate" ng-change="JVGetPagedSearch();" class="form-control " placeholder="To Date" readonly />
+                                <span class="input-group-addon" ng-click="ToDateChangeForJournalVoucher()" id="ToDateChangeForSO"><i class="fa fa-calendar req-icon-color"></i></span>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group tooltipAll" title="Select Voucher Type">
+                            <div class="input-group input-group-md ddl">
+                                <div id="selectVoucherType" ng-dropdown-multiselect=""
+                                     options="example8data"
+                                     selected-model="VoucherTypeIdList"
+                                     extra-settings="example8settings"
+                                     ng-click="fousSearchBox();"
+                                     translation-texts="VoucherTypePlaceholder">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button id="btnSearch" ng-click="LoadBtn()" style="width:100%" class="btn btn-primary" title="Reload">
+                            <i class="fa fa-spinner"></i>&nbsp;:Load
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <button id="btnSearch" ng-click="ReportBtn()" style="width:100%" class="btn btn-primary" title="Print">
+                            <i class="fa fa-print"></i>&nbsp;Print
+                        </button>
+                    </div>
+                    <div class="col-md-1">
+                        <button id="btnSearch" ng-click="ClearBtn()" style="width:100%" class="btn btn-danger" title="Clear">
+                            Clear
+                        </button>
+                    </div>
+
+                </div>
+
+                <hr />
+                <table class="responstable table-hover">
+                    <tbody>
+                        <tr>
+                            <th class="t-cell-center" style="width:10%">
+
+                                <input type="checkbox"  ng-click="CheckAllBtn()" ng-model="CheckAll"  /> Check All
+                            </th>
+                            <th class="t-cell-center">S/N</th>
+                            <th class="t-cell-center">Voucher No</th>
+                            <th class="t-cell-center">Voucher Date</th>
+
+                            <th class="t-cell-center">Dr Head</th>
+                            <th class="t-cell-center">Cr Head</th>
+                            <th class="t-cell-center">Dr Amount </th>
+                            <th class="t-cell-center">Cr Amount </th>
+
+                        </tr>
+                        <tr class="HoverTable searchRow" ng-repeat="aPaymentVoucher in VoucherListForGrid">
+                            <td class="t-cell-center" style="width:10%">
+                                <input type="checkbox" ng-click="CheckBtn(aPaymentVoucher)" ng-model="aPaymentVoucher.IsCheck" />
+                            </td>
+                            <td class="t-cell-center">{{$index + 1}}</td>
+                            <td class="t-cell-center">{{aPaymentVoucher.VoucherNo}}</td>
+                            <td class="t-cell-center">{{aPaymentVoucher.VDate}}</td>
+                            <td class="t-cell-center">{{aPaymentVoucher.DrHead}} - {{aPaymentVoucher.DrCode}}</td>
+                            <td class="t-cell-center">{{aPaymentVoucher.CrHead}} - {{aPaymentVoucher.CrCode}}</td>
+                            <td class="t-cell-center">{{aPaymentVoucher.DrAmount.toFixed(4)}}</td>
+                            <td class="t-cell-center">{{aPaymentVoucher.CrAmount.toFixed(4)}}</td>
+                        </tr>
+                    
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                           
+                            <td colspan="6" style="text-align:right"> Total :</td>
+                            <td class="t-cell-center">
+                                {{TotalDebitAmount.toFixed(4)}}
+                            </td>
+                            <td class="t-cell-center">
+                                {{TotalCreditAmount.toFixed(4)}}
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
